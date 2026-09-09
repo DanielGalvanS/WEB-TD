@@ -265,10 +265,10 @@ code{
   align-items:center;gap:12px;font-size:13px;
 }
 .bar-row .lab{color:var(--ink-2);text-align:right;line-height:1.25;overflow-wrap:anywhere}
-.bar-track{background:var(--bar-track);height:15px;position:relative;border-radius:0 4px 4px 0}
+.bar-track{display:block;background:var(--bar-track);height:15px;position:relative;border-radius:0 4px 4px 0}
 .bar-fill{
-  background:var(--bar);height:15px;border-radius:0 4px 4px 0;
-  width:var(--w);transition:width .7s cubic-bezier(.22,1,.36,1);
+  display:block;background:var(--bar);height:15px;border-radius:0 4px 4px 0;
+  width:var(--w);max-width:100%;transition:width .7s cubic-bezier(.22,1,.36,1);
 }
 .bar-row .val{
   font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;
