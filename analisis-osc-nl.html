@@ -1,0 +1,1400 @@
+<title>Nueva Web OSC NL — Diagnóstico y estrategia de rediseño</title>
+
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ground:#FCFAFA;
+  --surface:#FFFFFF;
+  --surface-2:#F5F0F1;
+  --ink:#2A1C24;
+  --ink-2:#4A3A41;
+  --muted:#6B5A61;
+  --rule:#E8DFE2;
+  --rule-strong:#D3C5C9;
+  --accent:#D4590A;
+  --accent-soft:#FBEADC;
+  --accent2:#A81765;
+  --accent2-soft:#FAE6F0;
+  --sev1:#C56B78;
+  --sev2:#AC3049;
+  --sev3:#87102A;
+  --bar:#D4590A;
+  --bar-track:#EFE6E6;
+  --good:#1F6D4A;
+  --shadow:0 1px 2px rgba(42,28,36,.06), 0 8px 24px -12px rgba(42,28,36,.18);
+
+  --display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#191114;
+    --surface:#221819;
+    --surface-2:#2B1F22;
+    --ink:#F2E9EC;
+    --ink-2:#DCCED3;
+    --muted:#A99AA0;
+    --rule:#3A2C31;
+    --rule-strong:#4E3C42;
+    --accent:#FF8A3D;
+    --accent-soft:#3A2213;
+    --accent2:#FF6FAE;
+    --accent2-soft:#3A1728;
+    --sev1:#C98A94;
+    --sev2:#E36476;
+    --sev3:#FF7A8C;
+    --bar:#FF8A3D;
+    --bar-track:#33252A;
+    --good:#4FBF8B;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#191114;
+  --surface:#221819;
+  --surface-2:#2B1F22;
+  --ink:#F2E9EC;
+  --ink-2:#DCCED3;
+  --muted:#A99AA0;
+  --rule:#3A2C31;
+  --rule-strong:#4E3C42;
+  --accent:#FF8A3D;
+  --accent-soft:#3A2213;
+  --accent2:#FF6FAE;
+  --accent2-soft:#3A1728;
+  --sev1:#C98A94;
+  --sev2:#E36476;
+  --sev3:#FF7A8C;
+  --bar:#FF8A3D;
+  --bar-track:#33252A;
+  --good:#4FBF8B;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16.5px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent2-soft);color:var(--ink)}
+a{color:var(--accent2);text-underline-offset:3px;text-decoration-thickness:1px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent2);outline-offset:3px;border-radius:2px}
+
+/* ============ MASTHEAD ============ */
+.masthead{
+  border-bottom:1px solid var(--rule);
+  background:var(--surface);
+}
+.masthead-in{
+  max-width:1240px;margin:0 auto;padding:56px 28px 44px;
+  display:grid;gap:26px;
+}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0;
+}
+.masthead h1{
+  font-family:var(--display);
+  font-size:clamp(2.1rem,5.2vw,3.6rem);
+  line-height:1.06;letter-spacing:-.015em;
+  margin:0;max-width:20ch;text-wrap:balance;font-weight:600;
+}
+.masthead h1 em{font-style:italic;color:var(--accent)}
+.deck{
+  font-size:1.08rem;color:var(--ink-2);max-width:62ch;margin:0;
+}
+.masthead-meta{
+  display:flex;flex-wrap:wrap;gap:0 34px;row-gap:10px;
+  border-top:1px solid var(--rule);padding-top:20px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;color:var(--muted);
+  text-transform:uppercase;
+}
+.masthead-meta b{color:var(--ink-2);font-weight:600}
+
+/* ============ SHELL ============ */
+.shell{max-width:1240px;margin:0 auto;padding:0 28px;display:grid;gap:56px;grid-template-columns:1fr;}
+@media (min-width:1060px){
+  .shell{grid-template-columns:212px minmax(0,1fr);gap:64px;align-items:start}
+}
+.rail{display:none}
+@media (min-width:1060px){
+  .rail{
+    display:block;position:sticky;top:0;padding:48px 0 60px;
+    max-height:100vh;overflow-y:auto;
+  }
+}
+.rail h2{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 14px;font-weight:500;
+}
+.rail ol{list-style:none;margin:0;padding:0;counter-reset:r}
+.rail li{counter-increment:r;margin:0}
+.rail a{
+  display:grid;grid-template-columns:20px 1fr;gap:8px;
+  padding:5px 0;font-size:13.2px;line-height:1.35;
+  color:var(--muted);text-decoration:none;border-left:2px solid transparent;
+  padding-left:10px;margin-left:-12px;transition:color .15s,border-color .15s;
+}
+.rail a::before{
+  content:counter(r,decimal-leading-zero);
+  font-family:var(--mono);font-size:10px;color:var(--rule-strong);padding-top:2px;
+}
+.rail a:hover{color:var(--ink)}
+.rail a.on{color:var(--ink);border-left-color:var(--accent);font-weight:500}
+.rail a.on::before{color:var(--accent)}
+
+main{padding:48px 0 120px;min-width:0}
+
+/* ============ SECTIONS ============ */
+section{scroll-margin-top:24px;margin-bottom:78px}
+.sec-head{
+  display:flex;align-items:baseline;gap:14px;
+  border-top:2px solid var(--ink);padding-top:14px;margin-bottom:26px;
+}
+.sec-num{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--accent);
+  padding-top:6px;flex:none;
+}
+.sec-head h2{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.5rem,3.1vw,2.05rem);line-height:1.16;letter-spacing:-.01em;
+  margin:0;text-wrap:balance;
+}
+h3{
+  font-family:var(--display);font-weight:600;font-size:1.28rem;line-height:1.25;
+  margin:38px 0 12px;letter-spacing:-.005em;text-wrap:balance;
+}
+h4{
+  font-family:var(--body);font-weight:650;font-size:.94rem;
+  letter-spacing:.01em;margin:26px 0 8px;color:var(--ink);
+}
+p{margin:0 0 15px;max-width:68ch}
+.lede{font-size:1.06rem;color:var(--ink-2);max-width:64ch}
+ul,ol{max-width:68ch;padding-left:1.15em;margin:0 0 16px}
+li{margin-bottom:7px}
+li::marker{color:var(--accent)}
+strong{font-weight:650}
+code{
+  font-family:var(--mono);font-size:.855em;background:var(--surface-2);
+  padding:.12em .38em;border-radius:3px;color:var(--ink-2);
+  overflow-wrap:anywhere;
+}
+
+/* ============ COMPONENTS ============ */
+.kicker{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 10px;
+}
+
+/* stat row */
+.stats{
+  display:grid;gap:1px;background:var(--rule);
+  grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  border:1px solid var(--rule);margin:26px 0 30px;
+}
+.stat{background:var(--surface);padding:20px 18px;display:grid;gap:5px;align-content:start}
+.stat .n{
+  font-family:var(--display);font-size:2.15rem;line-height:1;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;color:var(--ink);
+}
+.stat .n small{font-size:.95rem;color:var(--muted);letter-spacing:0}
+.stat .l{font-size:12.6px;line-height:1.35;color:var(--muted)}
+.stat.hot .n{color:var(--accent)}
+
+/* evidence block */
+.ev{
+  border:1px solid var(--rule);border-left:3px solid var(--accent);
+  background:var(--surface);padding:16px 18px;margin:20px 0 24px;
+  font-family:var(--mono);font-size:12.6px;line-height:1.62;
+  color:var(--ink-2);overflow-x:auto;
+}
+.ev .ev-t{
+  display:block;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:9px;
+}
+.ev pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}
+.ev b{color:var(--accent2);font-weight:600}
+
+/* findings */
+.finding{
+  border:1px solid var(--rule);background:var(--surface);
+  padding:18px 20px 16px;margin:0 0 12px;
+  display:grid;gap:9px;
+  border-left:3px solid var(--sev-c,var(--sev1));
+}
+.finding.s3{--sev-c:var(--sev3)}
+.finding.s2{--sev-c:var(--sev2)}
+.finding.s1{--sev-c:var(--sev1)}
+.f-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.f-id{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+.f-sev{
+  font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--sev-c);border:1px solid currentColor;border-radius:2px;padding:1px 6px;font-weight:600;
+}
+.f-title{font-weight:650;font-size:1.02rem;line-height:1.35;margin:0;flex:1 1 260px}
+.finding p{margin:0;max-width:none;font-size:.945rem;color:var(--ink-2)}
+.f-fix{
+  font-size:.9rem;color:var(--ink-2);border-top:1px dashed var(--rule-strong);
+  padding-top:9px;margin-top:2px;
+}
+.f-fix b{
+  font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:3px;font-weight:500;
+}
+
+/* charts */
+.fig{
+  border:1px solid var(--rule);background:var(--surface);
+  padding:22px 22px 18px;margin:26px 0 28px;
+}
+.fig-h{margin:0 0 4px;font-weight:650;font-size:.98rem}
+.fig-s{margin:0 0 18px;font-size:12.8px;color:var(--muted);max-width:60ch}
+.fig-n{
+  margin:16px 0 0;padding-top:12px;border-top:1px solid var(--rule);
+  font-size:12px;color:var(--muted);max-width:none;
+}
+.bars{display:grid;gap:7px}
+.bar-row{
+  display:grid;grid-template-columns:minmax(96px,142px) minmax(0,1fr) 58px;
+  align-items:center;gap:12px;font-size:13px;
+}
+.bar-row .lab{color:var(--ink-2);text-align:right;line-height:1.25;overflow-wrap:anywhere}
+.bar-track{background:var(--bar-track);height:15px;position:relative;border-radius:0 4px 4px 0}
+.bar-fill{
+  background:var(--bar);height:15px;border-radius:0 4px 4px 0;
+  width:var(--w);transition:width .7s cubic-bezier(.22,1,.36,1);
+}
+.bar-row .val{
+  font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;
+  color:var(--ink-2);text-align:right;
+}
+.bar-row.dim .bar-fill{background:var(--rule-strong)}
+.bar-row.hi .bar-fill{background:var(--sev3)}
+@media (prefers-reduced-motion:reduce){.bar-fill{transition:none}}
+
+/* meter (single stacked) */
+.meter{display:flex;height:26px;border-radius:3px;overflow:hidden;gap:2px;margin:6px 0 10px}
+.meter span{display:block;height:100%}
+.meter-key{
+  display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.4px;color:var(--muted);margin-bottom:2px;
+}
+.meter-key i{
+  display:inline-block;width:10px;height:10px;border-radius:2px;
+  margin-right:6px;vertical-align:baseline;
+}
+
+/* tables */
+.tw{overflow-x:auto;margin:22px 0 26px;border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font-size:13.6px;background:var(--surface);min-width:520px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+thead th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;background:var(--surface-2);
+  position:sticky;top:0;
+}
+tbody tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+td b{font-weight:650}
+
+/* callout */
+.call{
+  background:var(--accent-soft);border:1px solid var(--rule);
+  border-left:3px solid var(--accent);padding:18px 20px;margin:24px 0 26px;
+}
+.call.q{background:var(--accent2-soft);border-left-color:var(--accent2)}
+.call p{margin:0;max-width:64ch}
+.call p+p{margin-top:11px}
+.call .kicker{color:var(--ink-2)}
+
+/* two col */
+.cols{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));margin:22px 0 26px}
+.card{border:1px solid var(--rule);background:var(--surface);padding:18px 19px;display:grid;gap:8px;align-content:start}
+.card h4{margin:0;font-size:.95rem}
+.card p{margin:0;font-size:.925rem;color:var(--ink-2);max-width:none}
+.card ul{margin:0;font-size:.9rem;color:var(--ink-2);padding-left:1.1em;max-width:none}
+.card .tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);
+}
+
+/* wireframe */
+.wire{
+  border:1px solid var(--rule-strong);background:var(--surface);
+  padding:14px;margin:24px 0 12px;display:grid;gap:9px;
+  font-family:var(--mono);font-size:11.5px;
+}
+.wb{
+  border:1px dashed var(--rule-strong);padding:12px 13px;color:var(--ink-2);
+  display:grid;gap:5px;background:var(--surface);
+}
+.wb .wt{
+  font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+}
+.wb .wd{font-family:var(--body);font-size:12.8px;color:var(--muted);line-height:1.45}
+.wb.solid{background:var(--surface-2);border-style:solid}
+.wrow{display:grid;gap:9px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+
+/* sitemap */
+.map{display:grid;gap:10px;margin:24px 0 26px}
+.map-l{
+  display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));
+}
+.node{
+  border:1px solid var(--rule);background:var(--surface);padding:13px 14px;display:grid;gap:5px;
+}
+.node .nt{font-weight:650;font-size:.92rem}
+.node .nd{font-size:12.3px;color:var(--muted);line-height:1.4}
+.node ul{margin:4px 0 0;padding-left:1.05em;font-size:12.3px;color:var(--muted);max-width:none}
+.node ul li{margin-bottom:3px}
+.node.pri{border-color:var(--accent);border-width:1px;box-shadow:inset 3px 0 0 var(--accent)}
+.node.pri .nt{color:var(--accent)}
+
+/* pill list */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 18px}
+.pill{
+  font-family:var(--mono);font-size:11px;border:1px solid var(--rule-strong);
+  padding:3px 9px;color:var(--ink-2);border-radius:2px;
+}
+.pill.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+/* roadmap */
+.phase{
+  display:grid;gap:12px;grid-template-columns:1fr;
+  border:1px solid var(--rule);background:var(--surface);padding:20px;margin-bottom:12px;
+}
+@media(min-width:720px){.phase{grid-template-columns:170px minmax(0,1fr);gap:26px}}
+.phase-l{display:grid;gap:5px;align-content:start}
+.phase-l .pn{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);
+}
+.phase-l .pt{font-family:var(--display);font-size:1.18rem;line-height:1.2;font-weight:600}
+.phase-l .pw{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.phase-r p{margin:0 0 10px;font-size:.945rem;color:var(--ink-2)}
+.phase-r ul{margin:0;font-size:.925rem;color:var(--ink-2)}
+.phase-r ul+h4{margin-top:18px}
+
+/* q list */
+.qs{counter-reset:q;list-style:none;padding:0;margin:18px 0 0;max-width:none}
+.qs li{
+  counter-increment:q;display:grid;grid-template-columns:30px 1fr;gap:12px;
+  padding:13px 0;border-top:1px solid var(--rule);margin:0;
+}
+.qs li::before{
+  content:"Q" counter(q);font-family:var(--mono);font-size:11px;color:var(--accent);padding-top:3px;
+}
+.qs b{display:block;margin-bottom:2px}
+.qs span{font-size:.92rem;color:var(--muted)}
+
+footer{
+  border-top:2px solid var(--ink);margin-top:40px;padding:24px 0 0;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.7;
+}
+footer p{max-width:70ch}
+</style>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <p class="eyebrow">Secretaría de Igualdad e Inclusión · Nuevo León</p>
+    <h1>El portal OSC no está desactualizado. Está <em>construido al revés</em>.</h1>
+    <p class="deck">Diagnóstico del sitio actual, análisis de la base de datos que lo alimenta, y la estrategia de producto, contenido y arquitectura para la nueva plataforma OSC NL. Escrito para decidir, no para archivar.</p>
+    <div class="masthead-meta">
+      <span><b>Sitio auditado</b> sites.google.com/view/oscnl</span>
+      <span><b>Registros analizados</b> 779</span>
+      <span><b>Alcance</b> Web · Formularios · Tableros</span>
+      <span><b>Fecha</b> Septiembre 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="rail" aria-label="Índice del documento">
+    <h2>Contenido</h2>
+    <ol>
+      <li><a href="#resumen">Resumen ejecutivo</a></li>
+      <li><a href="#hoy">Qué es el portal hoy</a></li>
+      <li><a href="#hallazgos">Catálogo de hallazgos</a></li>
+      <li><a href="#datos">La base de datos real</a></li>
+      <li><a href="#psicologia">Psicología del usuario</a></li>
+      <li><a href="#publicos">Los cuatro públicos</a></li>
+      <li><a href="#arquitectura">Arquitectura de información</a></li>
+      <li><a href="#portada">La portada</a></li>
+      <li><a href="#directorio">El Directorio</a></li>
+      <li><a href="#registro">Registro y formularios</a></li>
+      <li><a href="#tableros">Tableros</a></li>
+      <li><a href="#modelo">Modelo de datos</a></li>
+      <li><a href="#visual">Sistema visual y A11y</a></li>
+      <li><a href="#tecnica">Lectura técnica del brief</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#preguntas">Preguntas abiertas</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+  <!-- 1 -->
+  <section id="resumen">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Resumen ejecutivo</h2></div>
+
+    <p class="lede">El brief institucional describe el problema como “desactualización sistemática de datos, diseño obsoleto y capacidades de análisis nulas”. Eso es correcto pero incompleto: son <strong>síntomas</strong>. La causa está una capa más abajo.</p>
+
+    <p>El portal actual fue diseñado desde la perspectiva de quien archiva, no de quien necesita. Su página de inicio es una lista de doce documentos normativos. Sus páginas de <em>Trámites</em> y <em>Contáctanos</em> —las dos que más se buscan en cualquier portal de gobierno— están vacías. Y el padrón completo de organizaciones vive en una hoja de cálculo publicada a internet.</p>
+
+    <p>Debajo de eso hay un problema de incentivos que ningún rediseño visual resuelve por sí solo: <strong>hoy una OSC entrega sus datos y no recibe nada a cambio.</strong> Ni un perfil público, ni visibilidad ante donantes, ni un comprobante, ni el estatus de su trámite. Un registro que no le sirve a quien lo llena, no se actualiza. Ese es el motor real de la desactualización.</p>
+
+    <div class="stats">
+      <div class="stat hot"><span class="n">3</span><span class="l">Páginas clave completamente vacías: Trámites, Contáctanos y Consejo</span></div>
+      <div class="stat hot"><span class="n">779</span><span class="l">Organizaciones en una hoja pública descargable en un clic</span></div>
+      <div class="stat hot"><span class="n">34<small>/51</small></span><span class="l">Municipios con al menos una OSC registrada</span></div>
+      <div class="stat hot"><span class="n">0</span><span class="l">Campos de fecha de actualización, vigencia o estatus en el padrón</span></div>
+      <div class="stat"><span class="n">91.9<small>%</small></span><span class="l">De las organizaciones registradas están en el Área Metropolitana</span></div>
+      <div class="stat"><span class="n">12</span><span class="l">PDFs normativos en la portada, cero texto que explique qué es OSC NL</span></div>
+    </div>
+
+    <h3>Las cinco decisiones que determinan el resultado</h3>
+    <ol>
+      <li><strong>El Directorio es el producto, no un anexo.</strong> Es el único activo que sirve simultáneamente a las OSC (visibilidad), a las empresas y fundaciones del Clúster de Inversión Social (dónde invertir), a la ciudadanía (a quién acudir) y a la Secretaría (con quién cuento y dónde no tengo a nadie). Todo lo demás se cuelga de ahí.</li>
+      <li><strong>Devolverle valor a quien llena el formulario.</strong> Perfil público, constancia descargable, estatus del trámite visible y presencia ante inversionistas sociales. Sin esto, la Fase 2 produce un formulario más bonito con la misma tasa de abandono.</li>
+      <li><strong>Separar datos institucionales de datos personales</strong> antes de migrar. Hoy se publican nombres, teléfonos, correos y RFC de presidentes y representantes legales sin granularidad de consentimiento.</li>
+      <li><strong>Arreglar la taxonomía antes de construir el tablero.</strong> El campo <code>Rubro General</code> mezcla dos vocabularios distintos y contiene categorías duplicadas. Cualquier gráfica construida hoy sobre ese campo es incorrecta, por bonita que se vea.</li>
+      <li><strong>No hay “un” tablero.</strong> Hay cuatro audiencias con necesidades incompatibles: la Directora, el personal operativo, el equipo de información y el público. Meterlas en una sola pantalla es el modo clásico de fallar en Fase 3.</li>
+    </ol>
+
+    <div class="call">
+      <p class="kicker">La frase para la presentación</p>
+      <p>El proyecto no es “modernizar un sitio”. Es <strong>convertir un archivero en la infraestructura de vinculación entre las 779 organizaciones de Nuevo León, los 229 millones de pesos de inversión social pública y la coinversión privada del estado.</strong></p>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section id="hoy">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Qué es el portal hoy — evidencia página por página</h2></div>
+
+    <p>Auditoría directa del sitio publicado, no impresiones. Lo relevante no es que se vea antiguo: es lo que <em>no está ahí</em>.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Página</th><th>Contenido propio real</th><th>Lectura</th></tr></thead>
+        <tbody>
+          <tr><td><b>Inicio</b></td><td>12 enlaces a PDFs normativos. Sin encabezado, sin explicación, sin llamada a la acción.</td><td>La portada no responde ninguna de las tres preguntas de un recién llegado.</td></tr>
+          <tr><td><b>Registro</b></td><td>Un tablero de Looker Studio embebido, un enlace de <em>edición</em> a un Google Form y una descarga <code>.xlsx</code>.</td><td>Es el corazón del sitio y no contiene una sola instrucción sobre cómo registrarse.</td></tr>
+          <tr><td><b>Trámites</b></td><td style="color:var(--sev3)"><b>Vacía.</b></td><td>Los trámites reales viven en <code>nlinea.nl.gob.mx</code>, sin enlace desde aquí.</td></tr>
+          <tr><td><b>Contáctanos</b></td><td style="color:var(--sev3)"><b>Vacía.</b></td><td>El dato de contacto real está en otro dominio, en <code>nl.gob.mx</code>.</td></tr>
+          <tr><td><b>Consejo</b></td><td style="color:var(--sev3)"><b>Vacía.</b></td><td>Órgano de representación sin integrantes, actas ni calendario publicados.</td></tr>
+          <tr><td><b>Comité</b></td><td>Tres informes anuales en PDF.</td><td>Sin integrantes, sin sesiones, sin acuerdos.</td></tr>
+          <tr><td><b>Convocatorias y Resultados</b></td><td>La página más rica del sitio: convocatorias y resultados de 2015 a 2026.</td><td>Doce años de historia valiosa, presentada como una lista plana sin buscador, filtros ni estados.</td></tr>
+          <tr><td><b>Eventos Externos</b></td><td>18 volúmenes del boletín <em>vOSCes</em> en PDF.</td><td>Contenido editorial encerrado en PDFs: no indexable, no citable, no leíble en celular.</td></tr>
+          <tr><td><b>Material de Apoyo</b></td><td>11 leyes y reglamentos.</td><td>Dos archivos siguen siendo <code>.crdownload</code>: descargas interrumpidas que nunca se corrigieron.</td></tr>
+          <tr><td><b>Videos OSC’s</b></td><td>5 videos con historias reales de organizaciones.</td><td>El mejor contenido del portal, enterrado a tres clics de la portada.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>La portada, literalmente</h3>
+    <p>Este es el texto completo del contenido propio de la página de inicio. No hay más:</p>
+
+    <div class="ev">
+      <span class="ev-t">Extracción de texto · sites.google.com/view/oscnl/inicio</span>
+<pre>GUÍA PARA EL LLENADO DE TRANSPARENCIA DEL SAT
+REFORMA A ROP 2025 DEL 31 DE OCTUBRE DE 2025
+ROP 8 DE SEPTIEMBRE 2025
+ROP 11 DE SEPTIEMBRE 2024
+ROP 20 DE MARZO 2020
+LEY DE FOMENTO A LA SOCIEDAD CIVIL ORGANIZADA PARA EL ESTADO DE N.L.
+REGLAMENTO DE LA LEY DE FOMENTO DE LA SOCIEDAD CIVIL ORGANIZADA…
+AVISO DE PRIVACIDAD
+PROGRAMA FOMENTO A OSC
+ACUERDO DE REGISTRO ESTATAL DE OSC
+CRITERIOS DE APOYO A OSC 2009
+CRITERIOS DE APOYO A OSC 2015</pre>
+    </div>
+
+    <p>Doce enlaces en mayúsculas, cinco de ellos versiones distintas del mismo documento normativo. Un usuario que llega buscando “cómo registro mi asociación” tiene que elegir entre doce archivos jurídicos y no acierta ninguno, porque la respuesta no está en la portada.</p>
+
+    <div class="call">
+      <p class="kicker">Diagnóstico de fondo</p>
+      <p>La portada está escrita desde el marco mental de la dependencia (“aquí está el sustento normativo de lo que hacemos”) y no desde el del visitante (“¿esto es para mí y qué tengo que hacer?”). Es el error más común y más caro en portales de gobierno, y ninguna cantidad de diseño visual lo corrige: se corrige cambiando qué se pone primero.</p>
+    </div>
+
+    <h3>Dónde está realmente la información</h3>
+    <p>El ecosistema OSC NL hoy está repartido en cinco lugares que no se conocen entre sí:</p>
+    <ul>
+      <li><strong>Google Sites</strong> — el portal narrativo y los PDFs.</li>
+      <li><strong>Google Drive</strong> — ~40 documentos normativos y boletines, en una cuenta cuya titularidad y continuidad no están garantizadas.</li>
+      <li><strong>Google Forms + Google Sheets</strong> — el registro y el padrón.</li>
+      <li><strong>Looker Studio</strong> — el “directorio”, embebido como iframe.</li>
+      <li><strong>nl.gob.mx y nlinea.nl.gob.mx</strong> — el trámite oficial y el contacto real, sin enlace de ida ni de vuelta.</li>
+    </ul>
+    <p>Cada salto entre estos entornos es una fuga de usuarios, un cambio de identidad visual y una pérdida de confianza. La nueva plataforma tiene que absorber los cinco o articularlos explícitamente.</p>
+  </section>
+
+  <!-- 3 -->
+  <section id="hallazgos">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Catálogo de hallazgos</h2></div>
+    <p class="lede">Catorce hallazgos verificados, ordenados por severidad. Los tres primeros son corregibles esta semana sin esperar al rediseño.</p>
+
+    <div class="pills" aria-hidden="true">
+      <span class="pill" style="border-color:var(--sev3);color:var(--sev3)">Crítico — riesgo legal, de datos o de acceso</span>
+      <span class="pill" style="border-color:var(--sev2);color:var(--sev2)">Alto — impide cumplir el objetivo del portal</span>
+      <span class="pill" style="border-color:var(--sev1);color:var(--sev1)">Medio — degrada la experiencia</span>
+    </div>
+
+    <div class="finding s3">
+      <div class="f-top"><span class="f-id">H-01</span><span class="f-sev">Crítico</span><p class="f-title">Datos personales de 779 organizaciones publicados y descargables</p></div>
+      <p>El padrón completo se publica como hoja de cálculo abierta a internet, exportable en un clic como <code>Portal OSC.xlsx</code>. Además de los datos institucionales, incluye columnas de <code>Presidente</code>, <code>Director</code>, <code>Representante Legal</code>, <code>Responsable</code>, <code>Contacto</code>, tres campos de teléfono, cuatro de correo y <code>RFC</code>. Nombres, teléfonos y RFC de personas físicas son datos personales; publicarlos íntegros, sin distinguir el dato institucional del dato personal ni ofrecer consentimiento granular, tensiona el propio Aviso de Privacidad del registro y la Ley de Protección de Datos Personales del Estado.</p>
+      <div class="ev">
+        <span class="ev-t">Encabezado real del archivo publicado</span>
+<pre>Organización, <b>Presidente</b>, Calle y Número, Colonia, Municipio, Dirección,
+<b>Teléfono 1</b>, <b>Teléfono 2</b>, <b>Teléfono 3</b>, Misión, Actividad Principal,
+Rubro General, Rubro Específico, Tipo Organización, <b>Correo 1…4</b>,
+Página Web, <b>RFC</b>, Alias, <b>Director</b>, <b>Responsable</b>,
+<b>Representante Legal</b>, <b>Contacto</b>, ID, Logo, …</pre>
+      </div>
+      <p class="f-fix"><b>Corrección</b>Despublicar la hoja hoy. En la nueva plataforma, separar el registro en dos capas: <em>perfil público</em> (organización, misión, ejes, municipio, contacto institucional que la OSC elija exponer) y <em>expediente reservado</em> (persona representante, RFC, documentos), accesible sólo por rol autenticado y con bitácora de consulta. Consentimiento por campo, no por formulario.</p>
+    </div>
+
+    <div class="finding s3">
+      <div class="f-top"><span class="f-id">H-02</span><span class="f-sev">Crítico</span><p class="f-title">La página de Registro publica el enlace de <em>edición</em> del formulario</p></div>
+      <p>El enlace que aparece en la sección de registro apunta a <code>docs.google.com/forms/d/&lt;id&gt;/edit</code> —la vista de administración— y no a la vista de respuesta. No otorga acceso por sí mismo, pero expone el identificador de administración y revela que el control de acceso al instrumento de captura depende de la configuración de una cuenta personal, sin bitácora ni segregación de funciones.</p>
+      <p class="f-fix"><b>Corrección</b>Sustituir por el enlace público de respuesta de inmediato. Revisar quién tiene permisos de edición sobre el formulario y sobre la hoja de respuestas, y documentar la titularidad de la cuenta.</p>
+    </div>
+
+    <div class="finding s3">
+      <div class="f-top"><span class="f-id">H-03</span><span class="f-sev">Crítico</span><p class="f-title">Continuidad operativa atada a cuentas de Google no institucionales</p></div>
+      <p>El sitio, los ~40 PDFs, el formulario, el padrón y el tablero viven en Drive/Sites/Looker. Si esa cuenta se desactiva por cambio de personal o de administración, el portal completo desaparece sin respaldo ni control de versiones. No existe bitácora de quién cambió qué ni cuándo — un requisito exigible a un registro público.</p>
+      <p class="f-fix"><b>Corrección</b>Respaldo íntegro inmediato de Drive y de la hoja. En la migración, los documentos normativos viven en el servidor institucional con URLs estables y versionadas, y se conservan redirecciones desde las URLs de Drive difundidas históricamente.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-04</span><span class="f-sev">Alto</span><p class="f-title">Las páginas de Trámites y Contáctanos están vacías</p></div>
+      <p>Son, en cualquier portal de gobierno, las dos páginas con mayor intención de uso. Un visitante que llega con una necesidad concreta —hacer algo, o preguntarle a alguien— llega a una página en blanco. Ese es el punto exacto donde el usuario abandona el canal digital y se va al teléfono, reproduciendo la carga operativa que el proyecto busca reducir.</p>
+      <p class="f-fix"><b>Corrección</b>Contenido real, hoy: en Trámites, la ficha del trámite con requisitos y el enlace a <code>nlinea.nl.gob.mx</code>; en Contacto, persona responsable, teléfono, correo, domicilio, horario y tiempo de respuesta esperado.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-05</span><span class="f-sev">Alto</span><p class="f-title">El padrón no tiene fecha de actualización, estatus ni vigencia</p></div>
+      <p>Ninguna de las 29 columnas registra cuándo se actualizó cada organización, si su registro está vigente, suspendido o cancelado, ni cuándo vence. Consecuencia directa: es imposible saber cuántas de las 779 organizaciones siguen operando, y es imposible construir el indicador que la Secretaría más necesita —<em>vigencia del padrón</em>— porque el dato no existe. La “desactualización sistemática” que señala el brief no es medible con el modelo de datos actual.</p>
+      <p class="f-fix"><b>Corrección</b>Campos obligatorios de <code>estatus</code>, <code>fecha_alta</code>, <code>fecha_ultima_actualizacion</code>, <code>vigencia_hasta</code> y <code>fuente_del_dato</code>, con ciclo anual de refrendo asistido.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-06</span><span class="f-sev">Alto</span><p class="f-title">La taxonomía temática mezcla dos vocabularios incompatibles</p></div>
+      <p>El campo <code>Rubro General</code> contiene 20 valores que provienen de dos sistemas distintos: nomenclatura propia (“Atención Social”, “Discapacidad”, “Adicciones”) y nombres de Objetivos de Desarrollo Sostenible (“Educación de calidad”, “Salud y bienestar”, “Reducción de las desigualdades”). El resultado son categorías que se solapan: <b>Salud (69)</b> y <b>Salud y bienestar (46)</b> son el mismo concepto contado dos veces. Cualquier gráfica de distribución temática construida hoy es incorrecta.</p>
+      <p class="f-fix"><b>Corrección</b>Un solo vocabulario controlado de ejes temáticos, más un mapeo <em>separado y multivaluado</em> a ODS y a los ejes de la Política Social estatal. Una organización puede tener varios ejes; un campo de texto libre no puede representar eso.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-07</span><span class="f-sev">Alto</span><p class="f-title">No existe seguimiento del estatus del trámite</p></div>
+      <p>Una vez enviada la solicitud, la organización no tiene forma de saber si llegó, si está completa, en qué etapa va o por qué fue rechazada. El único canal de estatus es preguntar por teléfono. En términos de experiencia de servicio público, el silencio administrativo es el mayor generador de desconfianza y de carga operativa: cada solicitud sin visibilidad genera entre dos y cinco llamadas de seguimiento.</p>
+      <p class="f-fix"><b>Corrección</b>Acuse con folio al enviar, línea de tiempo del expediente con etapas nombradas, y notificación en cada cambio de estado. Es la funcionalidad con mayor retorno de todo el proyecto.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-08</span><span class="f-sev">Alto</span><p class="f-title">Los grupos y redes son público objetivo declarado pero no caben en el modelo</p></div>
+      <p>La definición de audiencia incluye explícitamente “grupos organizados y redes”, y el instrumento de captura los contempla vía “el encargado o líder”. Sin embargo sólo <b>5 de 779 registros</b> (0.6%) están clasificados como <em>Grupos Organizados</em>. La razón es estructural: un grupo sin personalidad jurídica no tiene acta constitutiva ni RFC, que el registro trata como obligatorios. El formulario los expulsa antes de que empiecen.</p>
+      <p class="f-fix"><b>Corrección</b>Dos rutas de registro desde la primera pantalla: <em>organización legalmente constituida</em> y <em>grupo o red sin figura jurídica</em>, con requisitos, campos y alcance de derechos distintos.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-09</span><span class="f-sev">Alto</span><p class="f-title">El sitio declara estar en inglés</p></div>
+      <p>El documento se sirve con <code>&lt;html lang="en-US"&gt;</code> en un portal íntegramente en español. Un lector de pantalla pronunciará el contenido en español con motor fonético inglés, volviéndolo prácticamente ininteligible. Es un incumplimiento de WCAG 2.1 criterio 3.1.1 y no es corregible dentro de Google Sites. Para una Secretaría de Igualdad e Inclusión —con 52 organizaciones de discapacidad en su propio padrón— el costo reputacional excede al técnico.</p>
+      <div class="ev">
+        <span class="ev-t">Cabecera del documento servido</span>
+<pre>&lt;html <b>lang="en-US"</b> itemscope itemtype="http://schema.org/WebPage"&gt;
+&lt;title&gt;OSC NL&lt;/title&gt;
+&lt;!-- sin meta description --&gt;</pre>
+      </div>
+      <p class="f-fix"><b>Corrección</b>Se resuelve con la migración. Fijar auditoría WCAG 2.1 AA como criterio de aceptación contractual de la Fase 1, no como buena intención.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-10</span><span class="f-sev">Alto</span><p class="f-title">Sin dominio institucional: el portal no parece del gobierno</p></div>
+      <p>La dirección es <code>sites.google.com/view/oscnl</code>. En un contexto donde el fraude que suplanta programas sociales es común, el dominio es la primera señal de legitimidad que evalúa un usuario. Un portal que pide RFC, acta constitutiva e identificación oficial desde un subdominio de Google enfrenta una desventaja de confianza que ningún diseño compensa.</p>
+      <p class="f-fix"><b>Corrección</b>Publicar bajo <code>osc.nl.gob.mx</code> con certificado institucional, escudo del Estado y pie de página oficial.</p>
+    </div>
+
+    <div class="finding s1">
+      <div class="f-top"><span class="f-id">H-11</span><span class="f-sev">Medio</span><p class="f-title">Doce años de convocatorias sin buscador, filtros ni estados</p></div>
+      <p>La sección de Convocatorias y Resultados concentra el mejor contenido del sitio: convocatorias 2015–2026 con sus resultados. Se presenta como una lista plana. No se distingue lo abierto de lo cerrado, no hay fechas de cierre visibles, no hay búsqueda por año o por eje, y no se puede saber de un vistazo si hay algo vigente hoy.</p>
+      <p class="f-fix"><b>Corrección</b>Convertir cada convocatoria en un objeto con estado (abierta / por cerrar / cerrada / con resultados), fechas, eje temático, monto y documentos asociados. Filtros y búsqueda encima.</p>
+    </div>
+
+    <div class="finding s1">
+      <div class="f-top"><span class="f-id">H-12</span><span class="f-sev">Medio</span><p class="f-title">Contenido editorial encerrado en PDFs</p></div>
+      <p>Los 18 volúmenes del boletín <em>vOSCes</em> y las historias en video de organizaciones son el contenido con más potencial de difusión del portal, y están en formatos que no se indexan en buscadores, no se leen bien en celular y no se pueden citar por fragmento.</p>
+      <p class="f-fix"><b>Corrección</b>Publicar el boletín como páginas HTML con su PDF descargable como versión secundaria. Las historias en video, en fichas de organización dentro del Directorio.</p>
+    </div>
+
+    <div class="finding s1">
+      <div class="f-top"><span class="f-id">H-13</span><span class="f-sev">Medio</span><p class="f-title">Archivos rotos y versiones normativas sin jerarquía</p></div>
+      <p>Dos archivos de Material de Apoyo permanecen como <code>.crdownload</code> —descargas de Chrome interrumpidas subidas por error—. En la portada conviven cinco versiones de las Reglas de Operación (2020, 2024, 2025 y su reforma) sin indicar cuál es la vigente. Un usuario que descargue la equivocada puede preparar mal su solicitud.</p>
+      <p class="f-fix"><b>Corrección</b>Repositorio normativo con una sola versión marcada como vigente y las anteriores en un histórico plegado.</p>
+    </div>
+
+    <div class="finding s1">
+      <div class="f-top"><span class="f-id">H-14</span><span class="f-sev">Medio</span><p class="f-title">Invisible para buscadores</p></div>
+      <p>Sin <code>meta description</code>, con títulos genéricos (“OSC NL”), sin datos estructurados y sin dominio propio. Quien busque “registro de asociaciones civiles Nuevo León” difícilmente llegará aquí. El portal depende de que alguien le pase el enlace — es decir, del mismo canal telefónico que busca sustituir.</p>
+      <p class="f-fix"><b>Corrección</b>Títulos y descripciones por página, <code>schema.org/GovernmentService</code> en trámites y <code>NGO</code> en fichas de organización, y un sitemap. Cada una de las 779 fichas es una página indexable: es la mayor fuente de tráfico orgánico del proyecto.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section id="datos">
+    <div class="sec-head"><span class="sec-num">04</span><h2>La base de datos real</h2></div>
+    <p class="lede">Perfil de los 779 registros que hoy alimentan el directorio. Estos números son el punto de partida del tablero de la Fase 3 — y explican por qué el tablero no se puede construir todavía.</p>
+
+    <div class="fig">
+      <p class="fig-h">Concentración territorial de las organizaciones registradas</p>
+      <p class="fig-s">Organizaciones por municipio. Sólo aparecen 34 de los 51 municipios del estado.</p>
+      <div class="bars">
+        <div class="bar-row hi"><span class="lab">Monterrey</span><span class="bar-track"><span class="bar-fill" style="--w:100%"></span></span><span class="val">427</span></div>
+        <div class="bar-row"><span class="lab">San Pedro Garza García</span><span class="bar-track"><span class="bar-fill" style="--w:21.3%"></span></span><span class="val">91</span></div>
+        <div class="bar-row"><span class="lab">Guadalupe</span><span class="bar-track"><span class="bar-fill" style="--w:13.1%"></span></span><span class="val">56</span></div>
+        <div class="bar-row"><span class="lab">San Nicolás</span><span class="bar-track"><span class="bar-fill" style="--w:8.7%"></span></span><span class="val">37</span></div>
+        <div class="bar-row"><span class="lab">Apodaca</span><span class="bar-track"><span class="bar-fill" style="--w:5.4%"></span></span><span class="val">23</span></div>
+        <div class="bar-row"><span class="lab">Santa Catarina</span><span class="bar-track"><span class="bar-fill" style="--w:4.9%"></span></span><span class="val">21</span></div>
+        <div class="bar-row"><span class="lab">Linares</span><span class="bar-track"><span class="bar-fill" style="--w:3.3%"></span></span><span class="val">14</span></div>
+        <div class="bar-row"><span class="lab">Juárez</span><span class="bar-track"><span class="bar-fill" style="--w:3.0%"></span></span><span class="val">13</span></div>
+        <div class="bar-row"><span class="lab">Escobedo</span><span class="bar-track"><span class="bar-fill" style="--w:2.8%"></span></span><span class="val">12</span></div>
+        <div class="bar-row"><span class="lab">García</span><span class="bar-track"><span class="bar-fill" style="--w:2.3%"></span></span><span class="val">10</span></div>
+        <div class="bar-row"><span class="lab">Santiago</span><span class="bar-track"><span class="bar-fill" style="--w:2.3%"></span></span><span class="val">10</span></div>
+        <div class="bar-row dim"><span class="lab">Otros 23 municipios</span><span class="bar-track"><span class="bar-fill" style="--w:15.9%"></span></span><span class="val">65</span></div>
+        <div class="bar-row dim"><span class="lab">17 municipios sin ninguna</span><span class="bar-track"><span class="bar-fill" style="--w:0%"></span></span><span class="val">0</span></div>
+      </div>
+      <p class="fig-n"><strong>91.9%</strong> de las organizaciones registradas están en el Área Metropolitana y <strong>66.5%</strong> sólo en Monterrey y San Pedro. Municipios como Aramberri, Mier y Noriega, Iturbide o Rayones —entre los de mayor rezago social del estado— no tienen una sola organización registrada. Es el hallazgo más accionable de todo el padrón: define dónde tiene que trabajar la política de fomento.</p>
+    </div>
+
+    <div class="fig">
+      <p class="fig-h">Dos vocabularios peleándose el mismo campo</p>
+      <p class="fig-s">Distribución de <code>Rubro General</code>. En rojo, las categorías que duplican un concepto ya existente.</p>
+      <div class="bars">
+        <div class="bar-row"><span class="lab">Atención Social</span><span class="bar-track"><span class="bar-fill" style="--w:100%"></span></span><span class="val">122</span></div>
+        <div class="bar-row"><span class="lab">Salud</span><span class="bar-track"><span class="bar-fill" style="--w:56.6%"></span></span><span class="val">69</span></div>
+        <div class="bar-row"><span class="lab">Niñez y juventud</span><span class="bar-track"><span class="bar-fill" style="--w:50.8%"></span></span><span class="val">62</span></div>
+        <div class="bar-row"><span class="lab">Discapacidad</span><span class="bar-track"><span class="bar-fill" style="--w:42.6%"></span></span><span class="val">52</span></div>
+        <div class="bar-row hi"><span class="lab">Educación de calidad <em>(ODS 4)</em></span><span class="bar-track"><span class="bar-fill" style="--w:41.0%"></span></span><span class="val">50</span></div>
+        <div class="bar-row hi"><span class="lab">Salud y bienestar <em>(ODS 3)</em></span><span class="bar-track"><span class="bar-fill" style="--w:37.7%"></span></span><span class="val">46</span></div>
+        <div class="bar-row"><span class="lab">Centros de cuidado</span><span class="bar-track"><span class="bar-fill" style="--w:34.4%"></span></span><span class="val">42</span></div>
+        <div class="bar-row"><span class="lab">Adicciones</span><span class="bar-track"><span class="bar-fill" style="--w:32.8%"></span></span><span class="val">40</span></div>
+        <div class="bar-row"><span class="lab">Adultos mayores</span><span class="bar-track"><span class="bar-fill" style="--w:31.1%"></span></span><span class="val">38</span></div>
+        <div class="bar-row"><span class="lab">Atención a mujeres</span><span class="bar-track"><span class="bar-fill" style="--w:27.0%"></span></span><span class="val">33</span></div>
+        <div class="bar-row hi"><span class="lab">Reducción de desigualdades <em>(ODS 10)</em></span><span class="bar-track"><span class="bar-fill" style="--w:22.1%"></span></span><span class="val">27</span></div>
+        <div class="bar-row dim"><span class="lab">Otras 9 categorías</span><span class="bar-track"><span class="bar-fill" style="--w:80.3%"></span></span><span class="val">98</span></div>
+      </div>
+      <div class="meter-key" style="margin-top:18px">
+        <span><i style="background:var(--bar)"></i>Vocabulario temático propio — 593 registros (76%)</span>
+        <span><i style="background:var(--sev3)"></i>Vocabulario ODS — 186 registros (24%)</span>
+      </div>
+      <div class="meter">
+        <span style="background:var(--bar);width:76%"></span>
+        <span style="background:var(--sev3);width:24%"></span>
+      </div>
+      <p class="fig-n">“Salud” y “Salud y bienestar” son la misma cosa contada por separado; lo mismo ocurre con educación, igualdad de género y pobreza. Además, cada organización sólo puede tener <em>un</em> rubro, cuando en la práctica una casa hogar atiende simultáneamente niñez, salud y educación. El campo es a la vez ambiguo y insuficiente.</p>
+    </div>
+
+    <div class="fig">
+      <p class="fig-h">Completitud del padrón</p>
+      <p class="fig-s">Porcentaje de registros con el campo vacío. Los campos de identidad institucional están bien; falla lo que permite contactar y verificar.</p>
+      <div class="bars">
+        <div class="bar-row hi"><span class="lab">Página web</span><span class="bar-track"><span class="bar-fill" style="--w:27%"></span></span><span class="val">27.0%</span></div>
+        <div class="bar-row hi"><span class="lab">Representante legal</span><span class="bar-track"><span class="bar-fill" style="--w:11.4%"></span></span><span class="val">11.4%</span></div>
+        <div class="bar-row"><span class="lab">Alias / nombre corto</span><span class="bar-track"><span class="bar-fill" style="--w:6.5%"></span></span><span class="val">6.5%</span></div>
+        <div class="bar-row"><span class="lab">Responsable</span><span class="bar-track"><span class="bar-fill" style="--w:5.1%"></span></span><span class="val">5.1%</span></div>
+        <div class="bar-row"><span class="lab">RFC</span><span class="bar-track"><span class="bar-fill" style="--w:2.8%"></span></span><span class="val">2.8%</span></div>
+        <div class="bar-row"><span class="lab">Logotipo</span><span class="bar-track"><span class="bar-fill" style="--w:2.8%"></span></span><span class="val">2.8%</span></div>
+        <div class="bar-row"><span class="lab">Correo principal</span><span class="bar-track"><span class="bar-fill" style="--w:1.8%"></span></span><span class="val">1.8%</span></div>
+        <div class="bar-row"><span class="lab">Rubro específico</span><span class="bar-track"><span class="bar-fill" style="--w:0.9%"></span></span><span class="val">0.9%</span></div>
+      </div>
+      <p class="fig-n">La completitud aparente es alta porque el formulario obliga a llenar todo. Eso no significa que el dato sea correcto: sin fecha de actualización no hay forma de distinguir un dato capturado la semana pasada de uno de 2019. Un padrón 98% completo y 0% verificado es un padrón que no se puede usar para decidir.</p>
+    </div>
+
+    <h3>Otros defectos estructurales detectados</h3>
+    <ul>
+      <li><strong>Nombres de municipio en formato de catálogo invertido</strong> — “Aldamas, Los”, “Herreras, Los”, “Ramones, Los”. Rompe el orden alfabético en cualquier lista desplegable y bloquea el cruce automático con claves INEGI, que es lo que se necesita para mapas y para cruzar con indicadores de rezago social.</li>
+      <li><strong>Hasta tres teléfonos y cuatro correos en columnas repetidas</strong> — <code>Teléfono 1..3</code>, <code>Correo 1..4</code>. Modelo de datos plano donde debería haber una tabla de contactos con tipo y titular. Consecuencia práctica: nadie sabe cuál de los cuatro correos es el bueno.</li>
+      <li><strong>Campo calculado almacenado</strong> — <code>Concatenar calle, colonia y municipio</code> guarda una concatenación que debería derivarse al consultar. Se desincroniza en cuanto alguien corrige la dirección.</li>
+      <li><strong>Sin georreferenciación</strong> — hay dirección de texto pero no coordenadas. Sin ellas no hay mapa, y sin mapa no hay análisis de cobertura territorial, que es exactamente lo que pide la Fase 3.</li>
+      <li><strong>Sin CLUNI ni condición de donataria autorizada</strong> — dos datos que las empresas y fundaciones piden siempre antes de donar, y que el estado ya podría estar capturando.</li>
+      <li><strong>Sin datos de operación</strong> — ni población atendida, ni cobertura, ni presupuesto, ni personal, ni años de operación. El padrón describe <em>quién es</em> cada organización pero no <em>qué tan grande</em> ni <em>qué tanto hace</em>. Sin eso, “evaluar el impacto social” en el tablero es imposible.</li>
+    </ul>
+
+    <div class="call">
+      <p class="kicker">Implicación para el plan</p>
+      <p>La Fase 3 pide tableros para “evaluar el impacto social, la distribución geográfica y las necesidades operativas”. Con el modelo de datos actual <strong>ninguna de las tres es calculable</strong>: no hay medidas de impacto, no hay coordenadas y no hay datos operativos. El rediseño del modelo de datos no es una tarea de la Fase 3 — es un prerrequisito de la Fase 2. Si el formulario nuevo no captura estos campos, el tablero nace vacío.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="psicologia">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Psicología del usuario en portales de gobierno</h2></div>
+
+    <p class="lede">Un portal de gobierno no compite contra otros portales. Compite contra el teléfono de la funcionaria que sí contesta. Si el canal digital no es más rápido, más claro y menos riesgoso que llamarle a Azucena, nadie migra — y la carga operativa que el proyecto quiere reducir se mantiene intacta.</p>
+
+    <h3>La verdad incómoda: hoy el trato es asimétrico</h3>
+    <p>Una organización entrega hoy sus datos completos —incluidos los personales de su representante legal— y a cambio no recibe nada: ni perfil visible, ni constancia, ni estatus, ni visibilidad ante quien podría financiarla. La reciprocidad es el mecanismo psicológico que sostiene cualquier registro voluntario, y aquí está rota. Por eso el padrón se desactualiza: <strong>no es un problema de tecnología, es un problema de intercambio de valor.</strong></p>
+    <p>El rediseño tiene que invertir esa relación. Cada dato que se le pide a una OSC debe tener una contraprestación visible para ella: su ficha pública, su constancia descargable, su aparición ante empresas del Clúster de Inversión Social, su lugar en las estadísticas del estado. Cuando actualizar el registro sirve para conseguir recursos, se actualiza solo.</p>
+
+    <h3>Los tres costos que impone todo trámite</h3>
+    <p>La literatura de carga administrativa distingue tres costos que un ciudadano paga al interactuar con el Estado. Los tres tienen traducción directa a decisiones de diseño:</p>
+
+    <div class="cols">
+      <div class="card">
+        <span class="tag">Costo 1</span>
+        <h4>Aprendizaje</h4>
+        <p>Averiguar que el programa existe, si aplico, y qué se espera de mí. Hoy este costo lo paga íntegro el usuario: la portada muestra leyes, no elegibilidad.</p>
+        <p><strong>Diseño:</strong> antes del “cómo”, resolver el “¿esto es para mí?”. Un verificador de elegibilidad de tres preguntas en la portada ahorra más llamadas que cualquier manual.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Costo 2</span>
+        <h4>Cumplimiento</h4>
+        <p>Reunir documentos, llenar, subir, esperar. Es donde ocurre el abandono: la persona empieza, descubre a la mitad que le falta el acta, cierra la ventana y pierde el avance.</p>
+        <p><strong>Diseño:</strong> lista de requisitos <em>antes</em> de abrir el formulario, guardado automático y reanudación, prellenado desde el registro existente, y carga de documentos por fotografía desde el celular.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Costo 3</span>
+        <h4>Psicológico</h4>
+        <p>El miedo a hacerlo mal, la sensación de estar siendo evaluado sin saber con qué criterio, la humillación de tener que insistir. Es el costo invisible y el que más aleja.</p>
+        <p><strong>Diseño:</strong> lenguaje sin tono punitivo, criterios de dictaminación públicos, errores que explican cómo corregir, y resultados publicados con motivación. Nunca decir sólo “no procede”.</p>
+      </div>
+    </div>
+
+    <h3>Principios y sesgos que aplican a este portal en concreto</h3>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:26%">Mecanismo</th><th>Qué implica aquí</th><th style="width:32%">Decisión de diseño</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Ley de Hick</b><br><span style="color:var(--muted)">A más opciones, más lento se decide</span></td>
+            <td>Doce PDFs indiferenciados en la portada producen parálisis, no información. El usuario no elige mal: no elige.</td>
+            <td>Máximo tres rutas primarias en la portada. Todo lo normativo baja a un repositorio secundario.</td>
+          </tr>
+          <tr>
+            <td><b>Ley de Jakob</b><br><span style="color:var(--muted)">La gente espera que esto funcione como todo lo demás</span></td>
+            <td>Las OSC pasan el 99% de su tiempo en otros sitios. Un directorio debe verse y comportarse como un directorio: buscador arriba, filtros a la izquierda, resultados en tarjetas.</td>
+            <td>Cero patrones inventados. Convenciones reconocibles, ejecutadas con precisión.</td>
+          </tr>
+          <tr>
+            <td><b>Aversión a la pérdida</b><br><span style="color:var(--muted)">Perder pesa más que ganar</span></td>
+            <td>“Participa en la convocatoria” motiva menos que “Cierra en 9 días”. La fecha límite visible es el mayor motor de conversión de un portal de convocatorias.</td>
+            <td>Cuenta regresiva y estado explícito en cada convocatoria abierta, visible desde la portada.</td>
+          </tr>
+          <tr>
+            <td><b>Aversión a la ambigüedad</b><br><span style="color:var(--muted)">La incertidumbre se evita, aunque cueste</span></td>
+            <td>El silencio tras enviar una solicitud es la peor experiencia del servicio público y el mayor generador de llamadas.</td>
+            <td>Folio inmediato, etapas nombradas, notificación en cada cambio. Aunque el estado sea “en revisión”, decirlo vale.</td>
+          </tr>
+          <tr>
+            <td><b>Sesgo de statu quo</b><br><span style="color:var(--muted)">Lo conocido gana por default</span></td>
+            <td>El canal actual (WhatsApp y teléfono) ya funciona para ellos. Un portal que sea igual de lento no desplaza al teléfono.</td>
+            <td>El portal debe ganar en velocidad medible, y el canal asistido debe seguir visible — no escondido — para no castigar a quien no puede usarlo.</td>
+          </tr>
+          <tr>
+            <td><b>Efecto de progreso dotado</b><br><span style="color:var(--muted)">Un avance ya iniciado se termina</span></td>
+            <td>Formularios largos sin indicador de avance se abandonan; con avance visible y algunos pasos ya resueltos, se completan.</td>
+            <td>“Paso 3 de 7”, con los datos ya conocidos de la organización prellenados y marcados como listos.</td>
+          </tr>
+          <tr>
+            <td><b>Autoridad y legitimidad</b><br><span style="color:var(--muted)">Las señales institucionales se leen en segundos</span></td>
+            <td>Dominio, escudo, aviso de privacidad, fecha de actualización y una persona con nombre y teléfono. Hoy faltan casi todas.</td>
+            <td>Dominio <code>.gob.mx</code>, pie institucional, “Actualizado el …” en cada página, y contacto humano identificable.</td>
+          </tr>
+          <tr>
+            <td><b>Prueba social</b><br><span style="color:var(--muted)">Si otros como yo lo hicieron, yo también</span></td>
+            <td>Hay 779 organizaciones registradas y doce años de resultados publicados. Es un activo de confianza sin explotar.</td>
+            <td>Cifras vivas en la portada y las historias en video de organizaciones reales, visibles desde el primer nivel.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>La brecha digital de las propias organizaciones</h3>
+    <p>Es fácil diseñar suponiendo un usuario con laptop y buena conexión. El padrón dice lo contrario: <strong>27% de las organizaciones registradas no tienen siquiera página web propia.</strong> Muchas son operadas por una o dos personas, a menudo mayores, desde un teléfono Android de gama media con datos móviles. Esto no es un detalle de accesibilidad: es la condición de operación normal.</p>
+    <ul>
+      <li><strong>Móvil primero de verdad</strong> — el formulario de registro debe completarse íntegro desde un celular, incluida la carga de documentos por fotografía con recorte y compresión del lado del cliente.</li>
+      <li><strong>Presupuesto de peso estricto</strong> — el portal tiene que ser usable en 3G. Nada de tableros pesados incrustados en páginas públicas de alto tráfico.</li>
+      <li><strong>Tolerancia a la interrupción</strong> — guardado automático y reanudación por enlace enviado al correo. Perder veinte minutos de captura es la causa principal de abandono definitivo.</li>
+      <li><strong>Canal asistido explícito</strong> — teléfono, WhatsApp institucional y atención presencial, visibles en la misma pantalla del trámite. Ocultarlos no reduce llamadas: las convierte en quejas.</li>
+    </ul>
+
+    <div class="call q">
+      <p class="kicker">El criterio de éxito que propongo fijar desde ahora</p>
+      <p>Que <strong>una organización pequeña, sin página web, pueda completar su registro desde un celular, en una sola sesión de menos de 20 minutos, sin llamar a nadie</strong> — y que al terminar reciba folio, constancia y su ficha pública en línea. Si la nueva plataforma logra eso, todo lo demás del proyecto se vuelve viable. Si no lo logra, los tableros de la Fase 3 seguirán mostrando datos viejos, con mejor tipografía.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section id="publicos">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Los cuatro públicos</h2></div>
+    <p class="lede">La definición de audiencia que se compartió cubre tres. Falta un cuarto que es, estratégicamente, el más valioso.</p>
+
+    <div class="cols">
+      <div class="card">
+        <span class="tag">Público 1 · Confirmado</span>
+        <h4>Organizaciones, grupos y redes</h4>
+        <p>Vienen a registrarse, actualizar, buscar convocatorias, subir informes y consultar resultados. Llegan con fecha límite encima.</p>
+        <ul>
+          <li>Estado mental: prisa y miedo a errar</li>
+          <li>Dispositivo: celular</li>
+          <li>Necesitan: ruta única y sin ambigüedad</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Público 2 · Confirmado</span>
+        <h4>Ciudadanía</h4>
+        <p>Buscan a quién acudir para un problema concreto —una discapacidad, un adulto mayor, una adicción— o dónde ser voluntarias.</p>
+        <ul>
+          <li>Estado mental: urgencia personal</li>
+          <li>Entrada: por buscador, no por la portada</li>
+          <li>Necesitan: búsqueda por necesidad y por zona</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag">Público 3 · Confirmado</span>
+        <h4>Personal de la Secretaría</h4>
+        <p>Subsecretaría, Dirección y equipo de información. Tres necesidades distintas que hoy se confunden en una sola herramienta.</p>
+        <ul>
+          <li>Dirección: seis números y una alerta</li>
+          <li>Operación: una bandeja de trabajo</li>
+          <li>Información: exportar y cruzar</li>
+        </ul>
+      </div>
+      <div class="card" style="border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)">
+        <span class="tag" style="color:var(--accent)">Público 4 · Ausente del brief</span>
+        <h4>Empresas, fundaciones y organismos internacionales</h4>
+        <p>El propio modelo de la Subsecretaría se sostiene en coinversión privada, el Clúster de Inversión Social, el Premio IeI y el Foro ESG. Ese público necesita <em>encontrar y verificar</em> organizaciones — y hoy no tiene dónde.</p>
+        <ul>
+          <li>Necesitan: filtrar por eje, municipio y capacidad</li>
+          <li>Verifican: CLUNI, donataria autorizada, vigencia</li>
+          <li>Producen: el dinero que el estado quiere apalancar</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="call">
+      <p class="kicker">Por qué importa el cuarto</p>
+      <p>Con sólo tres públicos, el portal es un trámite. Con el cuarto, es <strong>la capa de vinculación entre la oferta social organizada del estado y el capital privado que la puede financiar</strong> — que es exactamente lo que describe el Modelo de Inversión Social de la Subsecretaría. Ese encuadre cambia la conversación presupuestal del proyecto: no se está pidiendo dinero para un rediseño, se está construyendo el instrumento que apalanca coinversión.</p>
+    </div>
+
+    <h3>Un punto que hay que resolver en el modelo de identidad</h3>
+    <p>La definición operativa dice que llenan el formulario “las organizaciones, el representante legal” o, en el caso de grupos, “el encargado o líder”. En la práctica eso produce tres problemas que hay que diseñar explícitamente, porque son la primera fuente de tickets de soporte de cualquier registro:</p>
+    <ul>
+      <li><strong>La cuenta es de la organización, no de la persona.</strong> Si la cuenta pertenece al representante legal y esa persona se va, la organización pierde su expediente. La identidad principal debe ser la organización, con personas asociadas por rol.</li>
+      <li><strong>Quien captura no siempre es quien autoriza.</strong> El representante legal firma, pero normalmente captura la coordinadora administrativa. Se necesitan roles delegados —capturista, autorizante— y una firma o confirmación explícita en el envío.</li>
+      <li><strong>El representante legal cambia.</strong> Debe existir un procedimiento de cambio de representante con documento probatorio y bitácora, y una recuperación de cuenta a nivel organización. Sin esto, en dos años habrá decenas de expedientes huérfanos.</li>
+    </ul>
+  </section>
+
+  <!-- 7 -->
+  <section id="arquitectura">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Arquitectura de información propuesta</h2></div>
+    <p class="lede">La estructura actual está organizada por área administrativa. La propuesta se organiza por intención del visitante, que es como la gente busca.</p>
+
+    <div class="map">
+      <div class="node pri">
+        <span class="nt">Inicio</span>
+        <span class="nd">Responde en cinco segundos: qué es esto, qué puedo hacer aquí, y qué está abierto ahora mismo.</span>
+      </div>
+      <div class="map-l">
+        <div class="node pri">
+          <span class="nt">Directorio de organizaciones</span>
+          <span class="nd">El corazón del portal. Buscador, filtros y 779 fichas públicas indexables.</span>
+          <ul><li>Búsqueda por necesidad, eje y municipio</li><li>Mapa de cobertura</li><li>Ficha pública por organización</li><li>Datos abiertos descargables</li></ul>
+        </div>
+        <div class="node pri">
+          <span class="nt">Convocatorias y apoyos</span>
+          <span class="nd">Qué está abierto, qué cierra pronto, qué se resolvió y a quién se apoyó.</span>
+          <ul><li>Abiertas · por cerrar · cerradas</li><li>Resultados 2015–2026</li><li>Reglas de operación vigentes</li><li>Preguntas frecuentes por convocatoria</li></ul>
+        </div>
+        <div class="node pri">
+          <span class="nt">Registro y trámites</span>
+          <span class="nd">Ruta única: verifico si aplico, junto requisitos, lleno, sigo mi folio.</span>
+          <ul><li>¿Aplico? — verificador breve</li><li>Registrarme (organización o grupo)</li><li>Actualizar mi registro</li><li>Mi expediente y estatus</li></ul>
+        </div>
+      </div>
+      <div class="map-l">
+        <div class="node">
+          <span class="nt">Fortalecimiento</span>
+          <span class="nd">Capacitación, asesorías, guías, boletín vOSCes en HTML, calendario de eventos.</span>
+        </div>
+        <div class="node">
+          <span class="nt">Inversión social y alianzas</span>
+          <span class="nd">Para empresas y fundaciones: cómo invertir, Clúster, Premio IeI, Foro ESG, constancia de contribución.</span>
+        </div>
+        <div class="node">
+          <span class="nt">Transparencia y datos</span>
+          <span class="nd">Tablero público, datos abiertos, marco normativo con vigencia, resultados históricos.</span>
+        </div>
+        <div class="node">
+          <span class="nt">Órganos de representación</span>
+          <span class="nd">Consejo y Comité con integrantes, calendario, actas y acuerdos. Hoy vacío.</span>
+        </div>
+        <div class="node">
+          <span class="nt">Contacto y ayuda</span>
+          <span class="nd">Persona responsable, teléfono, WhatsApp, domicilio, horario y tiempo de respuesta.</span>
+        </div>
+        <div class="node" style="border-style:dashed">
+          <span class="nt">Escritorio interno <span style="font-family:var(--mono);font-size:10px;color:var(--muted)">· autenticado</span></span>
+          <span class="nd">Bandeja operativa, tablero ejecutivo y exportación. Fuera del sitio público.</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Qué cambia y por qué</h3>
+    <ul>
+      <li><strong>El Directorio sube a primer nivel.</strong> Hoy está escondido dentro de “Registro”, mezclado con el trámite. Son dos cosas distintas: el directorio es <em>consulta pública</em>, el registro es <em>trámite privado</em>.</li>
+      <li><strong>“Programa de Fomento” desaparece como etiqueta de navegación.</strong> Es un nombre interno. La gente busca “convocatorias”, “apoyos” o “cómo obtengo recursos”.</li>
+      <li><strong>“Multimedia” desaparece.</strong> Es una categoría de formato, no de intención. Los videos van al Directorio, el material de apoyo a Fortalecimiento y a Transparencia.</li>
+      <li><strong>Aparece la sección para inversionistas sociales</strong>, que hoy no existe pese a ser el eje de la Subsecretaría.</li>
+      <li><strong>El marco normativo baja de la portada.</strong> No se elimina —es obligatorio y valioso— pero deja de ser lo primero, y se presenta con una sola versión marcada como vigente.</li>
+    </ul>
+  </section>
+
+  <!-- 8 -->
+  <section id="portada">
+    <div class="sec-head"><span class="sec-num">08</span><h2>La portada: los primeros cinco segundos</h2></div>
+    <p class="lede">Una portada de gobierno tiene un solo trabajo: que cada uno de los cuatro públicos se reconozca y sepa a dónde ir. Todo lo demás es adorno.</p>
+
+    <div class="wire" role="img" aria-label="Esquema de la portada propuesta, de arriba hacia abajo">
+      <div class="wb solid">
+        <span class="wt">Barra institucional</span>
+        <span class="wd">Escudo del Estado · Secretaría de Igualdad e Inclusión · osc.nl.gob.mx · buscador global · acceso “Mi organización”</span>
+      </div>
+      <div class="wb">
+        <span class="wt">Bloque de identidad — una sola frase</span>
+        <span class="wd">“El registro y la red de las organizaciones de la sociedad civil de Nuevo León.” Debajo, en una línea: qué encuentras aquí. Sin foto genérica de manos entrelazadas.</span>
+      </div>
+      <div class="wb">
+        <span class="wt">Franja de urgencia — sólo si hay algo abierto</span>
+        <span class="wd">“Convocatoria de Inversión Social Anual 2027 · cierra en 9 días” con botón directo. Si no hay nada abierto, se muestra la próxima fecha conocida en lugar de ocultar la franja.</span>
+      </div>
+      <div class="wrow">
+        <div class="wb">
+          <span class="wt">Ruta 1</span>
+          <span class="wd"><strong>Soy una organización</strong><br>Registrarme, actualizar mis datos, consultar mi trámite.</span>
+        </div>
+        <div class="wb">
+          <span class="wt">Ruta 2</span>
+          <span class="wd"><strong>Busco ayuda o quiero apoyar</strong><br>Encontrar organizaciones por causa y municipio.</span>
+        </div>
+        <div class="wb">
+          <span class="wt">Ruta 3</span>
+          <span class="wd"><strong>Represento una empresa o fundación</strong><br>Invertir, coinvertir y aliarme.</span>
+        </div>
+      </div>
+      <div class="wb">
+        <span class="wt">Buscador del directorio, en la propia portada</span>
+        <span class="wd">Campo de búsqueda real y accesos rápidos a las causas más consultadas: discapacidad, adultos mayores, niñez, adicciones, mujeres, alimentación.</span>
+      </div>
+      <div class="wb">
+        <span class="wt">Cifras vivas — legitimidad y prueba social</span>
+        <span class="wd">779 organizaciones registradas · 34 municipios con presencia · 229 mdp de inversión social 2025 · 12 años de resultados publicados. Cada cifra enlaza a su fuente en el tablero público.</span>
+      </div>
+      <div class="wb">
+        <span class="wt">Historias reales</span>
+        <span class="wd">Tres organizaciones destacadas con foto y video. El contenido ya existe y hoy está a tres clics.</span>
+      </div>
+      <div class="wb solid">
+        <span class="wt">Pie institucional</span>
+        <span class="wd">Contacto con nombre y teléfono · marco normativo vigente · aviso de privacidad · datos abiertos · accesibilidad · “Actualizado el …”</span>
+      </div>
+    </div>
+    <p class="fig-n" style="max-width:68ch">Nota deliberada: no hay carrusel. Los carruseles de banners en portales de gobierno concentran atención en el primer cuadro y esconden el resto — se usan para resolver disputas internas sobre qué va primero, no para servir al usuario. Si hay varias cosas urgentes, se listan.</p>
+  </section>
+
+  <!-- 9 -->
+  <section id="directorio">
+    <div class="sec-head"><span class="sec-num">09</span><h2>El Directorio — la pieza central</h2></div>
+    <p class="lede">Es lo único del portal que sirve a los cuatro públicos a la vez, y la mayor fuente potencial de tráfico orgánico: 779 páginas indexables donde hoy hay una hoja de cálculo.</p>
+
+    <h3>Búsqueda y filtros</h3>
+    <p>La gente no busca por “rubro”: busca por necesidad, en su lenguaje. “Casa hogar para adultos mayores en Guadalupe”. La búsqueda debe funcionar sobre nombre, alias, misión y actividad, tolerar errores de escritura y acentos, y ofrecer filtros combinables:</p>
+    <div class="pills">
+      <span class="pill on">Causa o eje temático</span>
+      <span class="pill on">Municipio</span>
+      <span class="pill">Población que atiende</span>
+      <span class="pill">Tipo de figura jurídica</span>
+      <span class="pill">Donataria autorizada</span>
+      <span class="pill">Registro vigente</span>
+      <span class="pill">Recibe voluntariado</span>
+      <span class="pill">Recibe donativos en especie</span>
+      <span class="pill">Con apoyo estatal vigente</span>
+    </div>
+    <p>Los filtros van en una fila sobre los resultados, con el conteo siempre visible (“48 organizaciones”) y estado compartible por URL — para que la Secretaría pueda mandar un enlace ya filtrado a una empresa interesada en un tema y un municipio.</p>
+
+    <h3>La ficha de organización</h3>
+    <p>Cada ficha es una página pública, con URL propia y datos estructurados. Esto es lo que convierte al registro en algo que la OSC <em>quiere</em> mantener actualizado:</p>
+    <div class="cols">
+      <div class="card">
+        <h4>Identidad</h4>
+        <ul><li>Nombre, alias y logotipo</li><li>Figura jurídica y año de constitución</li><li>Misión en sus propias palabras</li><li>Ejes temáticos y ODS</li></ul>
+      </div>
+      <div class="card">
+        <h4>Confianza</h4>
+        <ul><li>Registro estatal vigente, con fecha</li><li>CLUNI y donataria autorizada</li><li>Apoyos públicos recibidos, por año</li><li>“Actualizado por la organización el …”</li></ul>
+      </div>
+      <div class="card">
+        <h4>Acción</h4>
+        <ul><li>Cómo donar, cómo ser voluntario</li><li>Qué necesita ahora mismo</li><li>Contacto institucional que la OSC elige exponer</li><li>Ubicación en mapa y zona de cobertura</li></ul>
+      </div>
+    </div>
+    <p><strong>El sello de vigencia es el mecanismo clave.</strong> Una ficha que dice “Registro vigente · actualizado en agosto de 2026” vale para conseguir un donativo; una que dice “Sin actualizar desde 2019” presiona a la organización a corregirlo. El diseño convierte la actualización del padrón en un interés propio de la OSC, en lugar de una obligación que la Secretaría persigue.</p>
+
+    <div class="call">
+      <p class="kicker">Sobre la privacidad, sin ambigüedad</p>
+      <p>La ficha pública muestra <strong>datos institucionales</strong>: organización, misión, ejes, municipio y los medios de contacto que la propia organización marque como públicos. Los datos de personas —representante legal, RFC, teléfonos personales, documentos— viven en el expediente reservado, visibles sólo por rol autenticado y con bitácora de consulta. El consentimiento se recoge campo por campo, con un valor por omisión conservador.</p>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section id="registro">
+    <div class="sec-head"><span class="sec-num">10</span><h2>Registro y formularios — la Fase 2</h2></div>
+    <p class="lede">El brief la llama “motor de captación de datos”. Vale la pena renombrarla internamente: es un <em>expediente digital de la organización</em>. La diferencia no es semántica — cambia qué se construye.</p>
+
+    <p>Un “motor de formularios” produce respuestas sueltas que hay que consolidar a mano. Un expediente produce un registro vivo por organización, que se completa una vez y se reutiliza en cada convocatoria, informe y actualización. Es la diferencia entre pedirle a una OSC sus datos ocho veces al año y pedírselos una vez y luego pedirle que confirme.</p>
+
+    <h3>El flujo, paso a paso</h3>
+    <div class="wire">
+      <div class="wb"><span class="wt">Paso 0 · antes del formulario</span><span class="wd"><strong>¿Aplico?</strong> Tres a cinco preguntas que resuelven la elegibilidad y bifurcan entre organización constituida y grupo o red. Al final: la lista exacta de documentos que necesitará, descargable e imprimible.</span></div>
+      <div class="wb"><span class="wt">Paso 1</span><span class="wd"><strong>Identificación de la organización.</strong> Si ya está en el padrón, se busca por nombre o RFC y se prellenan los datos existentes para que sólo confirme o corrija. Nunca pedir de nuevo lo que ya se tiene.</span></div>
+      <div class="wb"><span class="wt">Paso 2</span><span class="wd"><strong>Datos del expediente</strong> en bloques cortos con guardado automático y avance visible. Cada bloque cabe en una pantalla de celular.</span></div>
+      <div class="wb"><span class="wt">Paso 3</span><span class="wd"><strong>Documentos.</strong> Carga por fotografía desde el celular, con recorte, compresión y validación inmediata de legibilidad. Decir qué falta antes de enviar, nunca después.</span></div>
+      <div class="wb"><span class="wt">Paso 4</span><span class="wd"><strong>Revisión y firma.</strong> Resumen completo en una pantalla, consentimientos por campo, y confirmación explícita de la persona autorizante.</span></div>
+      <div class="wb solid"><span class="wt">Paso 5 · la contraprestación</span><span class="wd"><strong>Folio inmediato, acuse descargable, constancia de registro y ficha pública en línea.</strong> Aquí es donde la organización recibe algo a cambio de lo que dio. Sin este paso, el rediseño no cambia nada.</span></div>
+      <div class="wb"><span class="wt">Después</span><span class="wd"><strong>Mi expediente:</strong> estatus con etapas nombradas, qué falta, quién lo revisa, notificaciones por correo, y refrendo anual de un solo clic cuando nada cambió.</span></div>
+    </div>
+
+    <h3>Reglas de diseño de formulario que hay que fijar como estándar</h3>
+    <ul>
+      <li><strong>Una pregunta por concepto, en lenguaje ciudadano.</strong> “¿A quiénes atienden?”, no “Población objetivo focalizada”.</li>
+      <li><strong>Divulgación progresiva.</strong> Sólo mostrar los campos que aplican al camino que la persona ya eligió. Un grupo sin figura jurídica nunca debe ver el campo de acta constitutiva.</li>
+      <li><strong>Validación en el campo, no al enviar.</strong> El RFC se valida al escribirlo; el error explica cómo corregir y no borra lo capturado.</li>
+      <li><strong>Guardado automático y reanudación por enlace.</strong> Es la diferencia entre 40% y 80% de finalización.</li>
+      <li><strong>Nada de campos obligatorios que se llenan con basura.</strong> Si el 100% de los campos está lleno pero el 30% dice “N/A”, el formulario está mal diseñado, no la gente.</li>
+      <li><strong>Accesible con teclado y lector de pantalla</strong>, etiquetas asociadas, errores anunciados. No negociable en esta Secretaría.</li>
+    </ul>
+  </section>
+
+  <!-- 11 -->
+  <section id="tableros">
+    <div class="sec-head"><span class="sec-num">11</span><h2>Tableros — la Fase 3</h2></div>
+    <p class="lede">La respuesta “personal de la Secretaría, la Directora y personal que maneja información” describe tres necesidades incompatibles. Construir una sola pantalla para las tres es la forma habitual de que la Fase 3 termine sin uso.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:20%">Producto</th><th style="width:20%">Quién</th><th>Pregunta que responde</th><th style="width:22%">Forma</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Tablero ejecutivo</b></td>
+            <td>Secretaria, Subsecretario, Directora</td>
+            <td>“¿Vamos bien y qué necesita mi atención hoy?”</td>
+            <td>Una pantalla, seis a ocho cifras con tendencia y hasta tres alertas. Legible en celular. Sin filtros.</td>
+          </tr>
+          <tr>
+            <td><b>Bandeja operativa</b></td>
+            <td>Personal de programa</td>
+            <td>“¿Qué me toca hacer y qué está por vencerse?”</td>
+            <td>No es un tablero: es una lista de trabajo con filtros, asignación, estados y acciones en línea.</td>
+          </tr>
+          <tr>
+            <td><b>Explorador analítico</b></td>
+            <td>Equipo de información y planeación</td>
+            <td>“¿Qué pasa si cruzo esto con aquello?”</td>
+            <td>Filtros libres, tablas, exportación a CSV/Excel y acceso al diccionario de datos.</td>
+          </tr>
+          <tr>
+            <td><b>Tablero público</b></td>
+            <td>Ciudadanía, prensa, academia, donantes</td>
+            <td>“¿En qué se gasta y a quién llega?”</td>
+            <td>Pocas visualizaciones, muy explicadas, con datos abiertos descargables y metodología visible.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Indicadores propuestos, derivados de brechas reales</h3>
+    <p>No son indicadores genéricos: cada uno responde a un vacío que el análisis del padrón dejó a la vista.</p>
+
+    <div class="cols">
+      <div class="card">
+        <span class="tag">Cobertura</span>
+        <h4>Municipios sin organización registrada</h4>
+        <p>Hoy: 17 de 51. Desagregado por eje temático, cruzado con índice de rezago social. Es el indicador que le dice a la política de fomento dónde tiene que ir a sembrar.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Calidad</span>
+        <h4>Vigencia del padrón</h4>
+        <p>Porcentaje de organizaciones con actualización confirmada en los últimos 12 meses. Hoy: no calculable. Es el indicador que mide directamente si el problema del brief se resolvió.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Servicio</span>
+        <h4>Embudo del trámite</h4>
+        <p>Iniciadas → completadas → recibidas → dictaminadas → apoyadas → comprobadas, con tiempo de ciclo por etapa. Es la base de las “alertas ante cuellos de botella” que pide el plan.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Equidad</span>
+        <h4>Concentración de la inversión</h4>
+        <p>Proporción del monto que reciben las diez organizaciones principales, y monto per cápita por municipio. Anticipa la pregunta que siempre llega desde el Congreso y la prensa.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Apalancamiento</span>
+        <h4>Coinversión privada por peso público</h4>
+        <p>El modelo de la Subsecretaría se define por la coinversión. Si es el modelo, tiene que ser el indicador — y hoy no se publica.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Alineación</span>
+        <h4>Distribución por eje y por ODS</h4>
+        <p>Requiere primero arreglar la taxonomía (H-06). Cualquier gráfica de este tipo construida sobre el campo actual es incorrecta.</p>
+      </div>
+    </div>
+
+    <h3>Dos advertencias técnicas sobre el tablero</h3>
+    <ul>
+      <li><strong>“El tablero consumirá directamente de la base de datos MySQL 8.4” es un riesgo, no una especificación.</strong> Las consultas analíticas contra la base transaccional degradan el trámite justo cuando más se usa: el día del cierre de convocatoria, cuando la Directora quiere ver el avance y 300 organizaciones están enviando su solicitud. Recomendación: réplica de lectura o esquema de reporte con vistas materializadas y refresco programado.</li>
+      <li><strong>Definir la latencia aceptable antes de elegir herramienta.</strong> “Seguimiento en tiempo real” y “refrescado cada 15 minutos” tienen costos de arquitectura muy distintos. Para decisiones de política pública, 15 minutos casi siempre basta; para la bandeja operativa, el dato sí debe ser inmediato porque es transaccional.</li>
+    </ul>
+  </section>
+
+  <!-- 12 -->
+  <section id="modelo">
+    <div class="sec-head"><span class="sec-num">12</span><h2>Modelo de datos: lo que hay que añadir</h2></div>
+    <p class="lede">El formulario de la Fase 2 determina para siempre lo que el tablero de la Fase 3 podrá mostrar. Estos campos hay que decidirlos ahora, no después.</p>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th style="width:27%">Campo nuevo</th><th>Para qué</th><th style="width:17%">Prioridad</th></tr></thead>
+        <tbody>
+          <tr><td><b>estatus</b> · vigente, en trámite, suspendido, cancelado</td><td>Distinguir organizaciones activas de registros históricos. Sin esto, las 779 son una cifra sin significado.</td><td>Indispensable</td></tr>
+          <tr><td><b>fecha_alta</b>, <b>fecha_ultima_actualizacion</b>, <b>vigencia_hasta</b></td><td>Medir vigencia del padrón, disparar refrendos y mostrar el sello de confianza en la ficha pública.</td><td>Indispensable</td></tr>
+          <tr><td><b>ejes[]</b> — vocabulario controlado, multivaluado</td><td>Sustituye a <code>Rubro General</code>. Una organización atiende varias causas; el campo actual sólo permite una.</td><td>Indispensable</td></tr>
+          <tr><td><b>ods[]</b> — mapeo separado</td><td>Alineación con Agenda 2030 sin contaminar la taxonomía operativa. Es lo que piden las empresas para su reporte ESG.</td><td>Alta</td></tr>
+          <tr><td><b>cve_municipio</b> (INEGI) + <b>lat/lon</b></td><td>Mapas, análisis de cobertura y cruce con indicadores de rezago. Sin clave y coordenadas no hay Fase 3 geográfica.</td><td>Indispensable</td></tr>
+          <tr><td><b>municipios_cobertura[]</b></td><td>Dónde <em>opera</em>, que no es lo mismo que dónde tiene domicilio. Corrige el sesgo de concentración aparente en Monterrey.</td><td>Alta</td></tr>
+          <tr><td><b>cluni</b>, <b>donataria_autorizada</b>, <b>vigencia_donataria</b></td><td>Los tres datos que verifica cualquier empresa antes de donar. Habilitan al cuarto público.</td><td>Alta</td></tr>
+          <tr><td><b>poblacion_atendida_anual</b>, <b>personal</b>, <b>voluntariado</b>, <b>presupuesto_anual</b></td><td>Dimensionar la capacidad instalada del sector. Es la única vía para hablar de “impacto social” con datos.</td><td>Alta</td></tr>
+          <tr><td><b>contactos[]</b> — tabla con tipo, titular y visibilidad</td><td>Sustituye <code>Teléfono 1..3</code> y <code>Correo 1..4</code>. Permite separar el contacto institucional público del personal reservado.</td><td>Indispensable</td></tr>
+          <tr><td><b>consentimientos[]</b> — por campo, con fecha</td><td>Base de licitud del tratamiento y sustento del portal de datos abiertos. Resuelve H-01.</td><td>Indispensable</td></tr>
+          <tr><td><b>personas[]</b> — con rol y vigencia</td><td>Representante legal, autorizante, capturista. Habilita el cambio de representante sin perder el expediente.</td><td>Indispensable</td></tr>
+          <tr><td><b>bitacora[]</b> — quién, qué, cuándo</td><td>Trazabilidad exigible a un registro público. Hoy no existe en absoluto.</td><td>Indispensable</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="call">
+      <p class="kicker">Migración</p>
+      <p>Los 779 registros actuales se migran con <code>estatus = por confirmar</code> y <code>fecha_ultima_actualizacion = desconocida</code>. La primera campaña de la nueva plataforma es un <strong>refrendo asistido</strong>: se invita a cada organización a confirmar y completar su ficha, con la ficha pública y la constancia como incentivo. Esa campaña es, en sí misma, la mejor prueba de carga del sistema y el primer dato limpio del tablero.</p>
+    </div>
+  </section>
+
+  <!-- 13 -->
+  <section id="visual">
+    <div class="sec-head"><span class="sec-num">13</span><h2>Sistema visual y accesibilidad</h2></div>
+
+    <h3>Identidad</h3>
+    <p>La plataforma debe leerse como Gobierno de Nuevo León y como Secretaría de Igualdad e Inclusión, sin heredar los defectos de la identidad de presentaciones. Tres criterios:</p>
+    <ul>
+      <li><strong>El naranja institucional no sirve para texto pequeño sobre blanco.</strong> El naranja de marca ronda 2.5:1 de contraste, por debajo del mínimo de 4.5:1 para texto normal. Debe usarse en superficies, títulos grandes y elementos gráficos, y oscurecerse una o dos posiciones cuando lleve texto pequeño encima. Lo mismo aplica al magenta.</li>
+      <li><strong>Nada de degradados naranja-magenta a pantalla completa.</strong> Funcionan en una portada de PowerPoint; en una interfaz que se usa durante veinte minutos generan fatiga y complican el contraste de todo lo que va encima.</li>
+      <li><strong>Color con significado, no decorativo.</strong> Reservar una escala para estados —abierta, por cerrar, cerrada, vigente, vencida— y usarla sólo para eso. Cada estado debe llevar además texto o icono: nunca color solo.</li>
+    </ul>
+
+    <h3>Accesibilidad como requisito contractual</h3>
+    <p>Con 52 organizaciones de discapacidad en su propio padrón, esta Secretaría no puede publicar un portal que falle criterios básicos. Propongo fijar como criterios de aceptación verificables:</p>
+    <ul>
+      <li>WCAG 2.1 nivel AA, auditado por un tercero antes de liberar, con la auditoría publicada.</li>
+      <li><code>lang="es-MX"</code>, jerarquía de encabezados correcta, formularios con etiquetas asociadas y errores anunciados.</li>
+      <li>Navegación completa con teclado, foco siempre visible, sin trampas de foco.</li>
+      <li>Objetivos táctiles de 44 píxeles como mínimo y texto redimensionable al 200% sin pérdida de contenido.</li>
+      <li>Prueba con lector de pantalla en las dos rutas críticas: registro y búsqueda en el directorio.</li>
+      <li>Presupuesto de rendimiento explícito: la portada y la búsqueda del directorio deben ser usables en una conexión 3G.</li>
+      <li>Declaración de accesibilidad publicada, con canal para reportar barreras — lo cual es, además, la señal institucional más creíble de que el tema se toma en serio.</li>
+    </ul>
+
+    <h3>Lenguaje</h3>
+    <p>El portal es un acto de comunicación pública. Vale la pena fijar una guía breve y hacerla obligatoria: lenguaje ciudadano por encima del administrativo (“solicitar apoyo” en vez de “presentar solicitud de acceso a instrumento de fomento”), voz activa, títulos que dicen qué se hace, mensajes de error que explican cómo corregir, y siglas siempre explicadas la primera vez. Es la intervención más barata y de mayor impacto de todo el proyecto.</p>
+  </section>
+
+  <!-- 14 -->
+  <section id="tecnica">
+    <div class="sec-head"><span class="sec-num">14</span><h2>Lectura técnica del brief</h2></div>
+    <p class="lede">Cinco puntos donde los documentos entregados se contradicen entre sí o dejan una decisión sin tomar. Conviene cerrarlos antes de estimar esfuerzo, porque cada uno mueve el alcance de forma significativa.</p>
+
+    <div class="finding s3">
+      <div class="f-top"><span class="f-id">T-01</span><span class="f-sev">Crítico</span><p class="f-title">“Cognito” es ambiguo, y las dos lecturas posibles chocan con la soberanía de datos</p></div>
+      <p>El Plan de Desarrollo enlista “Cognito Nuevo” como formularios dinámicos con “integración nativa con MySQL 8.4”. Hay dos productos distintos con ese nombre: <strong>Cognito Forms</strong>, un constructor de formularios comercial, y <strong>Amazon Cognito</strong>, un servicio de identidad y autenticación. Son cosas completamente diferentes y llevan a arquitecturas incompatibles. Además, ninguna de las dos hace “integración nativa” con MySQL: en ambos casos se requiere un intermediario de sincronización.</p>
+      <p>El problema de fondo es mayor: el documento de Modernización exige explícitamente <em>“garantizar la soberanía de los datos públicos”</em> e infraestructura gubernamental local. Un servicio comercial alojado en el extranjero implica que los datos personales de representantes legales —y potencialmente de personas beneficiarias— se procesarían fuera del país, por un tercero, con el consentimiento y el contrato de encargo que eso exige. Es una contradicción directa entre dos documentos del mismo proyecto.</p>
+      <p class="f-fix"><b>Recomendación</b>Construir el generador de formularios sobre el stack local. Es viable, es lo que resuelve la contradicción, y es además el corazón del reto técnico que el propio documento identifica como núcleo de la Fase 2. Si por tiempo se opta por un servicio externo, restringirlo a formularios sin datos personales y documentar el análisis de riesgo. En cualquier caso: aclarar por escrito a cuál de los dos “Cognito” se refiere el plan, antes de estimar.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">T-02</span><span class="f-sev">Alto</span><p class="f-title">“PHP 8.5.9 o Java Spring 4.0.x” es una decisión pendiente presentada como especificación</p></div>
+      <p>La conjunción “o” esconde una bifurcación completa: dos perfiles de talento, dos cadenas de construcción, dos modelos de despliegue y dos formas de operar en producción. No es un detalle que se resuelva sobre la marcha.</p>
+      <p class="f-fix"><b>Recomendación</b>Elegir según quién va a mantener esto en tres años, no según cuál es mejor en abstracto. Si el área de sistemas ya opera aplicaciones PHP sobre RHEL, ese es el camino de menor fricción operativa. Si existe una práctica Java consolidada con la infraestructura correspondiente, entonces Spring. Verificar también que la versión de PHP indicada esté disponible en los repositorios permitidos de RHEL 9 — el documento admite que hay “restricciones de software permitidas o prohibidas” y esto es exactamente donde suelen aparecer.</p>
+    </div>
+
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">T-03</span><span class="f-sev">Alto</span><p class="f-title">El tablero leyendo directo de la base transaccional</p></div>
+      <p>Descrito ya en la sección de tableros. Se registra aquí porque es una decisión de arquitectura, no de diseño: separar la carga analítica de la transaccional desde el inicio cuesta poco; separarla después de que el sistema esté en producción cuesta mucho.</p>
+      <p class="f-fix"><b>Recomendación</b>Réplica de lectura o esquema de reporte con vistas materializadas y refresco programado.</p>
+    </div>
+
+    <div class="finding s1">
+      <div class="f-top"><span class="f-id">T-04</span><span class="f-sev">Medio</span><p class="f-title">Falta la estrategia de migración de contenido y de URLs</p></div>
+      <p>Hay unos 40 documentos en Drive y una docena de páginas cuyas direcciones se han difundido durante años en oficios, convocatorias y correos. Apagar Google Sites sin plan rompe todos esos enlaces y genera una oleada de llamadas justo en el arranque de la nueva plataforma.</p>
+      <p class="f-fix"><b>Recomendación</b>Inventario completo, migración de archivos al servidor institucional con URLs estables, redirecciones desde las direcciones históricas mientras sea posible, y aviso anticipado a las organizaciones con el nuevo dominio.</p>
+    </div>
+
+    <div class="finding s1">
+      <div class="f-top"><span class="f-id">T-05</span><span class="f-sev">Medio</span><p class="f-title">Duplicidad con la Ventanilla Digital del Estado</p></div>
+      <p>El trámite del Programa de Fomento ya existe en <code>nlinea.nl.gob.mx</code>. Construir un segundo canal sin definir la relación entre ambos produce dos fuentes de verdad, dos experiencias distintas y confusión sobre cuál es la buena.</p>
+      <p class="f-fix"><b>Recomendación</b>Decidir explícitamente el reparto: la Ventanilla Digital como el trámite oficial de cara al ciudadano, y el portal OSC como registro, directorio y expediente sectorial — con enlaces bidireccionales y, si es posible, autenticación compartida. Conviene acordarlo con el área que opera nlinea antes de diseñar el flujo de registro.</p>
+    </div>
+  </section>
+
+  <!-- 15 -->
+  <section id="roadmap">
+    <div class="sec-head"><span class="sec-num">15</span><h2>Roadmap</h2></div>
+    <p class="lede">Respeta las tres fases del documento institucional y les antepone una fase cero de correcciones inmediatas que no requieren desarrollo.</p>
+
+    <div class="phase">
+      <div class="phase-l"><span class="pn">Fase 0</span><span class="pt">Contención</span><span class="pw">Esta semana · sin desarrollo</span></div>
+      <div class="phase-r">
+        <p>Cinco acciones que reducen riesgo hoy y no dependen del proyecto ni del presupuesto.</p>
+        <ul>
+          <li>Despublicar la hoja de cálculo con datos personales (H-01).</li>
+          <li>Reemplazar el enlace de edición del formulario por el enlace público (H-02).</li>
+          <li>Respaldo íntegro de Drive, Sites, formulario y hoja; documentar titularidad de las cuentas (H-03).</li>
+          <li>Poner contenido real en Trámites y Contáctanos, aunque sea texto plano (H-04).</li>
+          <li>Marcar cuál es la ROP vigente y retirar los archivos <code>.crdownload</code> (H-13).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-l"><span class="pn">Fase 1</span><span class="pt">Portal, Directorio y blindaje</span><span class="pw">El sitio público</span></div>
+      <div class="phase-r">
+        <p>Corresponde a “Rediseño, Estandarización y Seguridad” del documento institucional, con una precisión importante: el Directorio entra aquí, no después. Es el activo que justifica todo lo demás y el que genera tráfico desde el primer día.</p>
+        <h4>Entregables</h4>
+        <ul>
+          <li>Portal en <code>osc.nl.gob.mx</code>, arquitectura de información nueva, contenido reescrito en lenguaje ciudadano.</li>
+          <li>Directorio con buscador, filtros, mapa y 779 fichas públicas indexables.</li>
+          <li>Convocatorias como objetos con estado, fechas y resultados 2015–2026.</li>
+          <li>Modelo de datos rediseñado y migración con marca de “por confirmar”.</li>
+          <li>Separación pública/reservada, control de accesos, cifrado y bitácora.</li>
+          <li>Auditoría WCAG 2.1 AA de tercero, publicada.</li>
+        </ul>
+        <h4>Criterio de salida</h4>
+        <ul>
+          <li>Una persona sin conocimiento previo encuentra tres organizaciones de una causa y municipio dados, en menos de un minuto y desde un celular.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-l"><span class="pn">Fase 2</span><span class="pt">Expediente digital</span><span class="pw">Registro y formularios</span></div>
+      <div class="phase-r">
+        <p>El “motor de captación” del brief, reencuadrado como expediente vivo por organización. Antes de construirlo hace falta el diagnóstico que el propio documento pide: mapear el proceso actual de captura de principio a fin, incluyendo lo que hoy se hace por correo, WhatsApp y papel.</p>
+        <h4>Entregables</h4>
+        <ul>
+          <li>Verificador de elegibilidad y dos rutas de registro: organización constituida y grupo o red.</li>
+          <li>Formulario por pasos con guardado automático, reanudación y carga de documentos desde el celular.</li>
+          <li>Cuenta de organización con roles delegados y procedimiento de cambio de representante.</li>
+          <li>Folio, acuse, constancia y publicación automática de la ficha pública.</li>
+          <li>Seguimiento del expediente con etapas nombradas y notificaciones.</li>
+          <li>Campaña de refrendo asistido de los 779 registros migrados.</li>
+        </ul>
+        <h4>Criterio de salida</h4>
+        <ul>
+          <li>Una organización pequeña completa su registro desde un celular, en una sesión menor a 20 minutos, sin asistencia telefónica.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-l"><span class="pn">Fase 3</span><span class="pt">Inteligencia de datos</span><span class="pw">Tableros y decisiones</span></div>
+      <div class="phase-r">
+        <p>Sólo es viable si las fases anteriores produjeron datos limpios, fechados y taxonómicamente consistentes. Construir tableros antes es producir gráficas equivocadas con presentación profesional.</p>
+        <h4>Entregables</h4>
+        <ul>
+          <li>Capa analítica separada de la transaccional, con refresco programado.</li>
+          <li>Tablero ejecutivo de una pantalla, con alertas de cuello de botella.</li>
+          <li>Bandeja operativa para el personal de programa.</li>
+          <li>Explorador analítico con exportación y diccionario de datos.</li>
+          <li>Tablero público y portal de datos abiertos con la versión anonimizada del padrón.</li>
+        </ul>
+        <h4>Criterio de salida</h4>
+        <ul>
+          <li>La Dirección responde en menos de treinta segundos, desde su celular: cuántas organizaciones vigentes hay, en qué municipios no hay ninguna, cuántas solicitudes están detenidas y dónde.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 -->
+  <section id="preguntas">
+    <div class="sec-head"><span class="sec-num">16</span><h2>Preguntas abiertas</h2></div>
+    <p class="lede">La información compartida define bien la dirección. Estas doce respuestas son las que faltan para poder estimar esfuerzo con responsabilidad, ordenadas por cuánto mueven el alcance.</p>
+
+    <ol class="qs">
+      <li><b>¿A cuál “Cognito” se refiere el plan?</b><span>Cognito Forms, Amazon Cognito, o “un constructor de formularios equivalente”. Cambia por completo la arquitectura y la conversación sobre datos personales.</span></li>
+      <li><b>¿PHP o Java Spring?</b><span>Y sobre todo: ¿quién va a mantener el sistema dentro de tres años, y con qué perfiles cuenta hoy el área de sistemas?</span></li>
+      <li><b>¿Cuál es la relación con la Ventanilla Digital <code>nlinea</code>?</b><span>¿El portal OSC reemplaza, complementa o enlaza el trámite que ya existe ahí? ¿Puede compartir autenticación?</span></li>
+      <li><b>¿Cuál es el proceso de captura real hoy, de principio a fin?</b><span>Incluyendo lo que ocurre por correo, WhatsApp, teléfono y papel. Es el diagnóstico que el propio documento pide y sin el cual la Fase 2 se diseña a ciegas.</span></li>
+      <li><b>¿Cuántas solicitudes se procesan por convocatoria y con qué personal?</b><span>Define el dimensionamiento de la bandeja operativa y el pico de carga esperado el día del cierre.</span></li>
+      <li><b>¿Qué decisiones concretas toma la Dirección hoy, y con qué información?</b><span>“Personal que maneja información” no basta para diseñar un tablero. Necesito las tres a cinco preguntas que hoy se responden a mano.</span></li>
+      <li><b>¿Existe una fuente de datos de apoyos otorgados por organización y año?</b><span>Es lo que permite mostrar historial de apoyos en la ficha y los indicadores de concentración e inversión.</span></li>
+      <li><b>¿Quién es dueño del contenido y quién lo publica?</b><span>Una plataforma sin responsable de contenido vuelve a desactualizarse en dieciocho meses, con cualquier tecnología.</span></li>
+      <li><b>¿Qué autoriza la Unidad de Transparencia sobre publicación de datos del padrón?</b><span>Necesario para fijar el límite entre ficha pública, datos abiertos y expediente reservado.</span></li>
+      <li><b>¿Qué permite y qué prohíbe el área de infraestructura?</b><span>Repositorios de software autorizados, salida a internet del servidor, correo transaccional, almacenamiento de archivos, VPN y accesos por IP.</span></li>
+      <li><b>¿Hay presupuesto y figura para soporte y mejora continua después del lanzamiento?</b><span>Un registro es un sistema vivo. Entregarlo sin operación es garantizar que en tres años haya otro documento como este.</span></li>
+      <li><b>¿Cuál es la fecha límite política del proyecto?</b><span>Si hay una fecha institucional inamovible, el alcance se recorta por fases, no por calidad. Conviene decidirlo al principio y no al final.</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p>Diagnóstico elaborado a partir de la auditoría directa del sitio publicado en sites.google.com/view/oscnl y de la hoja de datos vinculada desde su sección de Registro (779 registros, 29 campos), contrastados con los documentos «Modernización Integral del Portal OSC», «Plan de Proyecto: Modernización de Plataforma OSC NL» y la presentación institucional de la Secretaría de Igualdad e Inclusión.</p>
+    <p>Los hallazgos de seguridad y datos personales se reportan para su corrección. Ningún dato personal se reproduce en este documento.</p>
+  </footer>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var secs = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if(!('IntersectionObserver' in window) || !secs.length) return;
+
+  var visible = new Set();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting) visible.add(e.target); else visible.delete(e.target);
+    });
+    var first = secs.find(function(s){ return visible.has(s); });
+    links.forEach(function(a){
+      a.classList.toggle('on', !!first && a.getAttribute('href') === '#' + first.id);
+    });
+  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+  secs.forEach(function(s){ io.observe(s); });
+
+  // reveal bars
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;
+  var fills = Array.prototype.slice.call(document.querySelectorAll('.bar-fill'));
+  fills.forEach(function(f){ f.dataset.w = f.style.getPropertyValue('--w'); f.style.setProperty('--w','0%'); });
+  var bo = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var f = e.target;
+        setTimeout(function(){ f.style.setProperty('--w', f.dataset.w); }, 40);
+        bo.unobserve(f);
+      }
+    });
+  }, { threshold: 0.15 });
+  fills.forEach(function(f){ bo.observe(f); });
+})();
+</script>
