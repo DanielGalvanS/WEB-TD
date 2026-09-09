@@ -617,6 +617,20 @@ Página Web, <b>RFC</b>, Alias, <b>Director</b>, <b>Responsable</b>,
       <p class="f-fix"><b>Corrección</b>Publicar bajo <code>osc.nl.gob.mx</code> con certificado institucional, escudo del Estado y pie de página oficial.</p>
     </div>
 
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-10b</span><span class="f-sev">Alto</span><p class="f-title">Las secciones de la portada son imágenes con el texto incrustado</p></div>
+      <p>Los cuatro bloques de la página de inicio —Registro, Programa de Fomento, Órganos de representación y Contáctanos— no son texto: son archivos PNG de 1600×900 con las palabras dibujadas dentro. Suman <b>3.1 MB</b> sólo en esos cuatro archivos. Las consecuencias son acumulativas:</p>
+      <ul style="margin:2px 0 0;font-size:.93rem;color:var(--ink-2)">
+        <li><strong>Ningún lector de pantalla puede leerlos.</strong> Para una persona ciega, la portada está en blanco.</li>
+        <li><strong>Ningún buscador los indexa.</strong> El texto "Registra tu organización" no existe para Google.</li>
+        <li><strong>No se puede seleccionar, copiar ni traducir</strong>, ni buscar con Ctrl+F.</li>
+        <li><strong>No se reajustan en celular.</strong> Una imagen de proporción 16:9 con texto pequeño se vuelve ilegible en un teléfono.</li>
+        <li><strong>Cambiar una coma exige un diseñador</strong> y volver a exportar. Es una de las razones por las que el contenido no se actualiza.</li>
+        <li><strong>3.1 MB de descarga</strong> en la primera pantalla, sobre conexiones móviles.</li>
+      </ul>
+      <p class="f-fix"><b>Corrección</b>Reconstruir los bloques como HTML: color de fondo por CSS, título y texto reales, fotografía como imagen optimizada aparte con su texto alternativo. Se ve idéntico, pesa una fracción, es accesible, indexable y editable por personal no técnico.</p>
+    </div>
+
     <div class="finding s1">
       <div class="f-top"><span class="f-id">H-11</span><span class="f-sev">Medio</span><p class="f-title">Doce años de convocatorias sin buscador, filtros ni estados</p></div>
       <p>La sección de Convocatorias y Resultados concentra el mejor contenido del sitio: convocatorias 2015–2026 con sus resultados. Se presenta como una lista plana. No se distingue lo abierto de lo cerrado, no hay fechas de cierre visibles, no hay búsqueda por año o por eje, y no se puede saber de un vistazo si hay algo vigente hoy.</p>
