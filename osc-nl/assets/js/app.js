@@ -77,6 +77,66 @@ function step(cls,t,d,why){
     (why ? H('<div class="why">',why,'</div>') : ''), '</div></div>');
 }
 
+/* ---------- integrantes de los órganos de representación ----------
+   Nombres, cargos y adscripción tomados de las páginas de Comité y
+   Consejo del portal actual, donde hoy están dentro de imágenes. */
+var ORGANOS = {
+ consejo: {
+  sig:'CCFSC', clase:'c-ccfsc',
+  nombre:'Consejo Consultivo de Fomento a la Sociedad Civil',
+  que:'Órgano de asesoría y consulta que promueve la colaboración entre el gobierno y las organizaciones de la sociedad civil, para desarrollar políticas públicas más inclusivas y efectivas.',
+  mision:'Facilitar la participación ciudadana en la creación, evaluación y seguimiento de esas políticas, asegurando que las iniciativas de bienestar social respondan a las necesidades reales de la población.',
+  art:'Artículo 38 de la Ley de Fomento a la Sociedad Civil Organizada',
+  atrib:['Analizar las políticas públicas del Estado y los municipios relacionadas con el fomento a las actividades de las organizaciones, agrupaciones y redes, y formular opiniones y propuestas sobre su aplicación u orientación.',
+         'Impulsar la participación ciudadana y de las organizaciones en la elaboración de programas y propuestas que puedan ser sometidas a consideración del Comité, para elaborar políticas públicas que se traduzcan en beneficios para la sociedad.',
+         'Integrar las comisiones y grupos de trabajo que sean necesarios para el ejercicio de sus funciones.',
+         'Sugerir la adopción de medidas administrativas y operativas que permitan el cumplimiento de sus objetivos y el desarrollo de sus funciones.',
+         'Coadyuvar en la aplicación de la Ley.'],
+  gente:[
+   ['luis-zavala','Luis Eduardo Zavala de Alba','Representante Científico, Consejero','Ciudadano','Casa Monarca, Ayuda Humanitaria al Migrante, A.B.P.'],
+   ['gabriela-sagaon','S. Gabriela Sagaón Sánchez','Representante Cultural, Consejera','Ciudadana','Secretaría de Igualdad e Inclusión'],
+   ['arely-gonzalez','Arely González de Hoyos','Representante Profesional, Consejera','Ciudadana','Andamos México'],
+   ['ana-peters','Ana Nora Peters de la Garza','Representante Ciudadana, Consejera','Ciudadana','Effeta, A.B.P.'],
+   ['enoc-mojica','Enoc Eliseo Mojica Sauza','Representante Ciudadano, Consejero','Ciudadano','Villas Asistenciales Santa María, A.B.P.'],
+   ['grethy-manzanares','Grethy R. Manzanares Garmendia','Representante Ciudadana, Consejera','Ciudadana','Asociación de Nicaragüenses en México, A.C.'],
+   ['jorge-lozano','Jorge A. Lozano Morales','Representante Ciudadano, Consejero','Ciudadano','Hagámoslo Bien por una Cultura de la Legalidad, A.C.'],
+   ['gerard-prado','Gerard Prado Hernández','Representante Ciudadano, Consejero','Ciudadano','Fundación Apleseed México, A.C.'],
+   ['arturo-monreal','Arturo Monreal del Razo','Representante Ciudadano, Consejero','Ciudadano','Fomento Moral y Educativo, A.C.'],
+   ['erika-laveaga','Érika Laveaga Bermudez','Representante Ciudadana, Consejera','Ciudadana','Impacto Colectivo'],
+   ['nancy-lopez','Nancy Edith López Cantú','Secretaria Técnica del Consejo','Gobierno','Secretaría de Igualdad e Inclusión']
+  ]},
+ comite: {
+  sig:'CTFA', clase:'c-ctfa',
+  nombre:'Comité Técnico para el Fomento de las Actividades de las OSC',
+  que:'Órgano consultivo y propositivo encargado de emitir opiniones y propuestas orientadas al fortalecimiento de las políticas públicas y al impulso de las actividades realizadas por las organizaciones de la sociedad civil.',
+  mision:'Vigilar el adecuado registro, aplicación y manejo de los recursos públicos destinados a fomentar las actividades de las organizaciones, y evaluar las políticas públicas del sector.',
+  art:'Artículo 21 de la Ley de Fomento a la Sociedad Civil Organizada',
+  atrib:['Coadyuvar en la creación y ejecución de las políticas públicas para el fomento de las actividades de las organizaciones de la sociedad civil.',
+         'Realizar la evaluación de las políticas públicas y acciones referentes al fomento de las actividades que señala la Ley.',
+         'Promover el diálogo continuo entre los sectores público, social y privado para mejorar las políticas públicas relacionadas.',
+         'Apoyar en la elaboración de criterios para la priorización y orientación de los recursos públicos destinados a fomentar las actividades.',
+         'Vigilar el adecuado registro, aplicación y manejo de los recursos públicos destinados a las organizaciones.',
+         'Vigilar el adecuado registro de las redes y agrupaciones.',
+         'Denunciar ante la autoridad competente cualquier incumplimiento de la Ley y de la normatividad aplicable.',
+         'Expedir su reglamento interior.'],
+  gente:[
+   ['felix-arratia','Félix Guadalupe Arratia Cruz','En representación de la persona Titular del Poder Ejecutivo del Estado','Gobierno','Secretaría de Igualdad e Inclusión'],
+   ['fernando-villarreal','Fernando J. Villarreal Cabellero','En representación de la Titular de la Secretaría de Igualdad e Inclusión','Gobierno','Secretaría de Igualdad e Inclusión'],
+   ['azucena-baez','Azucena Báez Martínez','En representación de la Titular de la Subsecretaría de Inversión Social y Alianzas Estratégicas','Gobierno','Secretaría de Igualdad e Inclusión'],
+   ['cesar-sandoval','César Sandoval Leal','En representación de la persona Titular de la Secretaría de Salud','Gobierno','Secretaría de Salud'],
+   ['karen-oviedo','Karen Sarahí Oviedo Oviedo','En representación de la persona Titular de la Secretaría de Educación','Gobierno','Secretaría de Educación'],
+   ['roberto-canales','Roberto Canales Martínez','En representación de la Junta de Beneficencia Privada de Nuevo León','Ciudadano','Junta de Beneficencia Privada'],
+   ['hector-morales','Héctor Julián Morales Rivera','Diputado integrante de la Comisión de Desarrollo Social, Derechos Humanos y Asuntos Indígenas','Gobierno','H. Congreso del Estado de N.L.'],
+   ['luis-landa','Luis Agustín Landa García Téllez','En representación de las Organizaciones de la Sociedad Civil','Ciudadano','Vía Educación, A.C.'],
+   ['elker-gonzalez','Elker González Forstner','En representación de las Organizaciones de la Sociedad Civil','Ciudadana','Fundación H.E.B. México'],
+   ['barbara-diego','Bárbara Diego Pérez','En representación de las Organizaciones de la Sociedad Civil','Ciudadana','El Futuro del Cuidado, A.C.'],
+   ['mariana-aguirre','Mariana Aguirre Quiroga','En representación de las Organizaciones de la Sociedad Civil','Ciudadana','Fundación RIISA'],
+   ['german-garcia','Germán García Fabregat Esquivel','En representación de las Organizaciones de la Sociedad Civil','Ciudadano','Instituto de Contadores Públicos de Nuevo León'],
+   ['luis-portales','Luis Enrique Portales Derbéz','En representación de las Universidades del Estado de Nuevo León','Ciudadano','Tecnológico de Monterrey'],
+   ['juan-silva','Juan Humberto Silva Daniel','Secretario Técnico del Comité','Gobierno','Secretaría de Igualdad e Inclusión']
+  ]}
+};
+
 /* ---------- historias en video ---------- */
 var STORIES = [
  {s:'una-promesa-senectud', v:'18yxHuTDAQUcUvHwJyKFucta08ZZDPw3n', vsz:'153 MB', org:741, ph:1,
@@ -699,48 +759,49 @@ ROUTES.fortalecimiento = function(){
 };
 
 /* ============ ÓRGANOS ============ */
+function ficha_persona(p){
+  return H('<li class="persona"><img class="p-foto" src="assets/img/personas/',p[0],'.jpg" alt="" loading="lazy" width="260" height="260">',
+    '<div class="p-txt"><h3>',esc(p[1]),'</h3>',
+    '<p class="p-cargo">',esc(p[2]),'</p>',
+    '<p class="p-org">',esc(p[4]),'</p>',
+    '<span class="p-sec ',(p[3].indexOf('Gobierno')===0?'g':'c'),'">',esc(p[3]),'</span>',
+    '</div></li>');
+}
+function bloque_organo(o){
+  var g = o.gente.filter(function(x){ return x[3].indexOf('Gobierno')===0; }).length;
+  return H('<section class="organo">',
+    '<div class="o-cab ',o.clase,'"><span class="o-sig">',o.sig,'</span>',
+      '<h2>',esc(o.nombre),'</h2></div>',
+    '<div class="o-cuerpo">',
+      '<p>',esc(o.que),'</p>',
+      '<p>',esc(o.mision),'</p>',
+      '<div class="o-cifras"><span><b>',o.gente.length,'</b> integrantes</span>',
+        '<span><b>',o.gente.length-g,'</b> de la sociedad civil</span>',
+        '<span><b>',g,'</b> de gobierno</span></div>',
+      '<h3 class="o-tit">Integrantes</h3>',
+      '<ul class="personas">', o.gente.map(ficha_persona).join(''), '</ul>',
+      '<details class="atrib"><summary>Atribuciones · ',esc(o.art),'</summary>',
+        '<ol>', o.atrib.map(function(x){ return H('<li>',esc(x),'</li>'); }).join(''), '</ol>',
+      '</details>',
+    '</div></section>');
+}
 ROUTES.organos = function(){
   return H('<div class="page"><div class="wrap">',
     '<p class="crumbs"><a href="#/">Inicio</a> › Órganos de representación</p>',
     '<h1 class="pt">Órganos de representación</h1>',
-    '<p class="psub">El Consejo Consultivo de Fomento a la Sociedad Civil Organizada y el Comité Técnico ',
-      'para el Fomento de las Actividades de la Sociedad Civil de Nuevo León son las dos instancias donde ',
-      'las organizaciones participan en las decisiones del Estado.</p>',
-
-    '<div class="organo"><div class="o-cab c-ccfsc"><span class="o-sig">CCFSC</span>',
-      '<h2>Consejo Consultivo de Fomento a la Sociedad Civil</h2></div>',
-      '<div class="o-cuerpo">',
-        '<p>Órgano consultivo y propositivo. Reúne a organizaciones de la sociedad civil con la ',
-        'administración estatal para opinar sobre políticas públicas y proponer líneas de trabajo ',
-        'que fortalezcan al sector.</p>',
-        '<dl class="dl">',
-          row('Naturaleza','Consultivo y propositivo'),
-          row('Quién lo integra','Organizaciones de la sociedad civil y dependencias del Gobierno del Estado'),
-          row('Qué produce','Opiniones, propuestas y acuerdos de colaboración'),
-          row('Documentos','<span class="mut">Integrantes vigentes, calendario y actas — pendientes de publicar</span>'),
-        '</dl>',
-      '</div></div>',
-
-    '<div class="organo"><div class="o-cab c-ctfa"><span class="o-sig">CTFA</span>',
-      '<h2>Comité Técnico para el Fomento de las Actividades de las OSC</h2></div>',
-      '<div class="o-cuerpo">',
-        '<p>Órgano de seguimiento de la inversión social destinada al fomento. Revisa y da seguimiento ',
-        'a los apoyos otorgados a las organizaciones y rinde informe anual.</p>',
-        '<dl class="dl">',
-          row('Naturaleza','Seguimiento y evaluación'),
-          row('Qué revisa','La inversión social pública dirigida a organizaciones'),
-          row('Marco','Reglamento Interior del Comité Técnico'),
-          row('Informes','Anuales 2023, 2024 y 2025'),
-        '</dl>',
-        '<div class="acts" style="margin-top:6px">',
-          '<a class="btn ghost sm" href="#/transparencia">Ver informes anuales</a>',
-        '</div>',
-      '</div></div>',
-
-    '<div class="callout"><p class="ck">Qué falta publicar</p>',
-      '<p>De ambos órganos hace falta lo mismo: <b>quiénes los integran hoy, con qué periodo, ',
-      'cuándo sesionan y qué acordaron</b>. Es la información que vuelve creíble a un órgano de ',
-      'representación, y hoy no está en ninguna de las dos páginas del portal.</p></div>',
+    '<p class="psub">Las dos instancias donde las organizaciones participan en las decisiones del Estado. ',
+      '<b>25 personas</b> las integran: ',ORGANOS.consejo.gente.length,' en el Consejo y ',ORGANOS.comite.gente.length,' en el Comité.</p>',
+    bloque_organo(ORGANOS.consejo),
+    bloque_organo(ORGANOS.comite),
+    '<div class="callout"><p class="ck">Contacto</p>',
+      '<p>Las aportaciones de las organizaciones son parte del trabajo de ambos órganos. ',
+      'Para sugerencias, comentarios u orientación: <b>Nancy Edith López Cantú</b>, responsable del Comité y del Consejo — ',
+      '<a href="mailto:nancy.lopez@nuevoleon.gob.mx">nancy.lopez@nuevoleon.gob.mx</a></p></div>',
+    '<div class="callout" style="border-left-color:var(--p4);background:var(--p4-soft)">',
+      '<p class="ck" style="color:var(--p4-text)">Qué falta</p>',
+      '<p>Los nombres y cargos de estas 25 personas <b>hoy viven dentro de imágenes</b> en el portal: no se pueden ',
+      'copiar, buscar ni leer con lector de pantalla. Aquí ya son texto. Falta publicar el <b>periodo de cada ',
+      'nombramiento, el calendario de sesiones y las actas</b>.</p></div>',
   '</div></div>');
 };
 

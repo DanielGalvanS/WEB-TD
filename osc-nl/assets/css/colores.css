@@ -10,6 +10,7 @@
   --naranja-hover:#E5760A;   /* al pasar el cursor por un botón    */
   --naranja-text: #A8580D;   /* cuando el naranja es TEXTO         */
   --naranja-soft: #FFF3E7;   /* fondo suave de tarjetas y avisos   */
+  --naranja-linea:#E07611;   /* subrayados y líneas finas (3.1:1)  */
 
   /* el mismo naranja con transparencia, para el degradado del banner */
   --naranja-88: rgba(255,134,19,.88);
