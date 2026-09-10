@@ -203,9 +203,7 @@ p{margin:0 0 15px;max-width:70ch}
 .hist{display:grid;gap:34px;grid-template-columns:1fr}
 @media(min-width:900px){.hist{grid-template-columns:minmax(0,1fr) 300px;gap:44px;align-items:start}}
 .hvid{width:100%;aspect-ratio:16/9;height:auto;border-radius:var(--r);background:#1A1A1A;
-  display:block;margin-bottom:10px}
-.vnote{font-size:12.5px;color:var(--muted);margin:0 0 26px}
-.vnote b{color:var(--ink-2)}
+  display:block;margin-bottom:28px}
 .hist h1.pt{font-size:clamp(1.7rem,3.8vw,2.5rem)}
 .story .ph{aspect-ratio:16/10;background:#EDE9E4 var(--foto) center/cover no-repeat;
   position:relative;overflow:hidden}

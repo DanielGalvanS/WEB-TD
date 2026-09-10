@@ -373,11 +373,7 @@ ROUTES.directorio = function(p){
         '<div class="fg"><h3>Otros</h3>',
           '<label><input type="checkbox" name="w" value="1"',(web?' checked':''),
             '> <span>Con sitio web propio</span><span class="ct">',CON_WEB,'</span></label>',
-          '<label><input type="checkbox" disabled> <span class="mut">Donataria autorizada</span><span class="ct">—</span></label>',
-          '<label><input type="checkbox" disabled> <span class="mut">Recibe voluntariado</span><span class="ct">—</span></label>',
         '</div>',
-        '<p class="mut" style="font-size:12px">Los filtros en gris requieren campos que hoy no existen en el padrón ',
-        'y que propongo capturar en el nuevo registro.</p>',
       '</form>',
       '<div>',
         '<h2 class="vh">Resultados</h2>',
@@ -532,10 +528,6 @@ ROUTES.registro = function(){
       step('','Mi expediente','Estatus con etapas nombradas, qué falta, quién lo revisa, notificación en cada cambio, y refrendo anual de un clic cuando nada cambió.','Elimina el <b>silencio administrativo</b>, que es el mayor generador de llamadas de seguimiento.'),
     '</div>',
 
-    '<div class="callout" style="margin-top:30px"><p class="ck">Nota de alcance</p>',
-      '<p>El formulario funcional corresponde a la Fase 2 y depende de definir el stack y la herramienta de captura. ',
-      'Lo que sí hay que decidir <b>ahora</b> es el modelo de datos: los campos que este formulario capture determinan para siempre ',
-      'lo que el tablero de la Fase 3 podrá mostrar.</p></div>',
   '</div></div>');
 };
 
@@ -653,17 +645,11 @@ ROUTES.transparencia = function(){
         doc('Reglas de Operación · 20 de marzo de 2020','PDF · 2.6 MB',false,'https://drive.google.com/uc?export=download&id=1bz8EGy_dm1wO7E4y6cOnMeVneEB1wPFw'),
       '</div>',
     '</details>',
-    '<div class="callout" style="border-left-color:var(--p1);background:var(--p1-soft)">',
-      '<p class="ck" style="color:var(--naranja-text)">Nota de migración</p>',
-      '<p>El portal actual enlaza <b>172 archivos alojados en Google Drive</b>, con un peso conjunto de <b>416 MB</b>. ',
-      'Varios son escaneos sin optimizar: el más pesado ocupa <b>78 MB para 15 páginas</b>. ',
-      'Al migrar conviene comprimirlos y darles URL propia y estable en el servidor institucional.</p>',
-    '</div>',
 
     '<div class="callout" style="margin-top:26px"><p class="ck">Datos abiertos</p>',
       '<p>El padrón se publica en formato abierto <b>únicamente con campos institucionales</b>: organización, figura jurídica, ',
       'municipio con clave INEGI, eje temático, ODS y estatus del registro. ',
-      'Nombres de personas, RFC, teléfonos y correos personales quedan fuera de la publicación — hoy se publican todos.</p></div>',
+      'Nombres de personas, RFC, teléfonos y correos personales quedan fuera de la publicación.</p></div>',
   '</div></div>');
 };
 
@@ -675,11 +661,6 @@ ROUTES.inversion = function(){
     '<p class="psub">Para empresas, fundaciones y organismos internacionales que quieren invertir en Nuevo León. ',
       'Cómo coinvertir con el Estado, con quién aliarse y qué se necesita para hacerlo.</p>',
 
-    '<div class="callout"><p class="ck">Por qué importa</p>',
-      '<p>El modelo de la Subsecretaría se sostiene en <b>coinversión</b>: inversión pública más inversión privada, ',
-      'articuladas por el Clúster de Inversión Social. Ese público necesita <b>encontrar y verificar</b> organizaciones ',
-      '— y hoy no tiene dónde hacerlo. Con esta sección, el Directorio deja de ser un requisito administrativo ',
-      'y se convierte en la capa que apalanca capital privado.</p></div>',
 
     '<div class="grid2" style="margin-bottom:30px">',
       box('Encuentra dónde invertir','Filtra el directorio por eje temático, municipio y población atendida. Comparte el resultado filtrado por enlace.',
@@ -693,10 +674,9 @@ ROUTES.inversion = function(){
     '</div>',
 
     '<div class="box">',
-      '<h2>Los tres campos que hay que empezar a capturar</h2>',
-      '<p>Nada de lo anterior funciona sin ellos, y ninguno existe hoy en el padrón: ',
-      '<b>CLUNI</b>, <b>condición de donataria autorizada</b> y <b>vigencia del registro</b>. ',
-      'Son tres columnas nuevas en el formulario de la Fase 2 que desbloquean un público completo.</p>',
+      '<h2>Qué verifica una empresa antes de donar</h2>',
+      '<p>Tres datos: <b>CLUNI</b>, <b>condición de donataria autorizada</b> y <b>vigencia del registro</b>. ',
+      'Cada ficha del directorio los muestra cuando la organización los tiene registrados.</p>',
     '</div>',
   '</div></div>');
 };
@@ -748,9 +728,6 @@ ROUTES.fortalecimiento = function(){
         ['Filtro por mes y por eje','Recordatorio por correo'],null,null),
     '</div>',
 
-    '<div class="callout" style="margin-top:26px"><p class="ck">Pendiente</p>',
-      '<p>Los 18 volúmenes siguen siendo PDF. Convertirlos a páginas web los vuelve indexables, ',
-      'legibles en celular y citables por fragmento, sin producir contenido nuevo.</p></div>',
   '</div></div>');
 };
 
@@ -793,10 +770,6 @@ ROUTES.organos = function(){
       '<p>Las aportaciones de las organizaciones son parte del trabajo de ambos órganos. ',
       'Para sugerencias, comentarios u orientación: <b>Nancy Edith López Cantú</b>, responsable del Comité y del Consejo — ',
       '<a href="mailto:nancy.lopez@nuevoleon.gob.mx">nancy.lopez@nuevoleon.gob.mx</a></p></div>',
-    '<div class="callout" style="border-left-color:var(--p4);background:var(--p4-soft)">',
-      '<p class="ck" style="color:var(--p4-text)">Pendiente de la Secretaría</p>',
-      '<p>Falta el <b>periodo de cada nombramiento</b>, el <b>calendario de sesiones</b> y las <b>actas y acuerdos</b>. ',
-      'Sin esos tres datos, un órgano de representación no se puede seguir ni evaluar desde fuera.</p></div>',
   '</div></div>');
 };
 
@@ -869,20 +842,12 @@ ROUTES.historia = function(p,seg){
           'Tu navegador no puede reproducir video. ',
           '<a href="https://drive.google.com/file/d/',st.v,'/view">Ver el video en Drive</a>.',
         '</video>',
-        '<p class="vnote">Reproducción en la propia página. Original de <b>',st.vsz,
-          '</b> comprimido a <b>',VIDEOS[st.s].ahora,'</b> a perfil web.</p>',
         '<h1 class="pt">',esc(st.n),'</h1>',
         o ? H('<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px">',
               '<span class="chip eje">',esc(o.e),'</span>',
               '<span class="chip eje">',esc(o.m),'</span>',
               '<span class="chip eje">',esc(o.t),'</span></div>') : '',
         st.p.map(function(x){ return H('<p style="font-size:1.06rem">',esc(x),'</p>'); }).join(''),
-        '<div class="callout" style="border-left-color:var(--p1);background:var(--p1-soft)">',
-          '<p class="ck" style="color:var(--naranja-text)">Pendiente</p>',
-          '<p>Este video no tiene <b>subtítulos</b>, y ninguno de los cinco los tiene. ',
-          'Sin ellos son inaccesibles para personas sordas. Hace falta transcribir el audio ',
-          'y generar el archivo de subtítulos de cada uno.</p>',
-        '</div>',
       '</div>',
       '<aside>',
         o ? H('<div class="fbox"><h2>Esta organización</h2>',
