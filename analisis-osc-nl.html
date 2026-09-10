@@ -637,6 +637,24 @@ Página Web, <b>RFC</b>, Alias, <b>Director</b>, <b>Responsable</b>,
       <p class="f-fix"><b>Corrección</b>Convertir cada convocatoria en un objeto con estado (abierta / por cerrar / cerrada / con resultados), fechas, eje temático, monto y documentos asociados. Filtros y búsqueda encima.</p>
     </div>
 
+    <div class="finding s2">
+      <div class="f-top"><span class="f-id">H-11b</span><span class="f-sev">Alto</span><p class="f-title">Los cinco videos de organizaciones suman 1.2 GB y viven en Drive</p></div>
+      <p>Las historias en video —el contenido con más potencial de difusión del portal— están alojadas como archivos sueltos en Google Drive, sin comprimir:</p>
+      <div class="tw" style="margin:10px 0 6px">
+        <table style="min-width:auto">
+          <tbody>
+            <tr><td>Patronato para la Comunidad Terapéutica, A.B.P.</td><td class="num">484 MB</td></tr>
+            <tr><td>Guerreros en la Vida y en la Cancha, A.C.</td><td class="num">209 MB</td></tr>
+            <tr><td>Centro Pedagógico Cometa, A.C.</td><td class="num">200 MB</td></tr>
+            <tr><td>Asociación Lobos MG, A.C.</td><td class="num">176 MB</td></tr>
+            <tr><td>Una Promesa para la Senectud, A.C.</td><td class="num">153 MB</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Por su tamaño, Drive ni siquiera los entrega directamente: interpone una advertencia de «no se pudo analizar en busca de virus», que para una persona sin experiencia técnica parece una alerta de seguridad y la hace abandonar. Tampoco tienen subtítulos, lo que los vuelve inaccesibles para personas sordas.</p>
+      <p class="f-fix"><b>Corrección</b>Comprimir a H.264/H.265 con perfil web —un video de estos baja a 20–40 MB sin pérdida perceptible—, servirlos desde el portal con reproducción progresiva, añadir subtítulos y una imagen de portada. Publicados así, cada video se vuelve indexable y se puede insertar en la ficha de su organización.</p>
+    </div>
+
     <div class="finding s1">
       <div class="f-top"><span class="f-id">H-12</span><span class="f-sev">Medio</span><p class="f-title">Contenido editorial encerrado en PDFs</p></div>
       <p>Los 18 volúmenes del boletín <em>vOSCes</em> y las historias en video de organizaciones son el contenido con más potencial de difusión del portal, y están en formatos que no se indexan en buscadores, no se leen bien en celular y no se pueden citar por fragmento.</p>

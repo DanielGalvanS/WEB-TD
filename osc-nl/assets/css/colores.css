@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════════════════════
+   COLORES  ·  OSC NL
+   Este es el único archivo que hay que tocar para cambiar la paleta.
+   Cambia el valor y se propaga a toda la página.
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+
+  /* ---- NARANJA INSTITUCIONAL ------------------------------- */
+  --naranja:      #FF8613;   /* banner, botones, paneles, pie      */
+  --naranja-hover:#E5760A;   /* al pasar el cursor por un botón    */
+  --naranja-text: #A8580D;   /* cuando el naranja es TEXTO         */
+  --naranja-soft: #FFF3E7;   /* fondo suave de tarjetas y avisos   */
+
+  /* el mismo naranja con transparencia, para el degradado del banner */
+  --naranja-88: rgba(255,134,19,.88);
+  --naranja-52: rgba(255,134,19,.52);
+  --naranja-90: rgba(255,134,19,.90);
+  --banner: radial-gradient(125% 155% at 78% 20%, #FFAF63 0%, #FFA147 24%, #FF922B 48%, #FF8613 76%);
+
+  /* ---- LOS OTROS PANELES DE COLOR --------------------------- */
+  --p1:#FF8613;  --p1-soft:#FFF3E7;  --p1-text:#A8580D;  /* naranja */
+  --p2:#8AC9FE;  --p2-soft:#E8F3FE;  --p2-text:#1B6BAF;  /* azul    */
+  --p3:#FA6FB5;  --p3-soft:#FEE8F3;  --p3-text:#B3126B;  /* magenta */
+  --p4:#9092FF;  --p4-soft:#EFEFFE;  --p4-text:#4A4BC4;  /* morado  */
+  --p5:#08E085;  --p5-soft:#E3FBF0;  --p5-text:#0A6E45;  /* verde   */
+  --p6:#FFDE59;  --p6-soft:#FFF9E0;  --p6-text:#8A6400;  /* amarillo*/
+  /* Texto encima de los paneles de color.
+     Blanco es como se ve el portal actual. Se queda así.
+     Nota: blanco sobre estos tonos da entre 1.8:1 y 2.7:1, por debajo
+     del 4.5:1 que pide WCAG AA. Para pasar la auditoría hay dos vías:
+       a) cambiar --on-panel a #2B2B2B (texto oscuro), o
+       b) oscurecer los paneles: azul #537998, magenta #B95286,
+          morado #6C6DBF, y dejar el naranja para títulos grandes.
+     Lo dejo señalado, no aplicado. */
+  --on-panel:#FFFFFF;
+  --pie:#FF8613;             /* fondo del pie de página            */
+
+  /* ---- NEUTROS Y ESTADOS ----------------------------------- */
+  --page:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-2:#F7F7F7;
+  --borde:#E8E8E8;
+  --borde-2:#CFCFCF;
+  --ink:#2B2B2B;
+  --ink-2:#3E3E3E;
+  --muted:#6B6B6B;
+  --exito:#1B7A45;   --exito-bg:#E8F5EC;
+  --alerta:#9E530C;  --alerta-bg:#FFF3E7;
+  --sans:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --r:10px;
+  --e1:0 1px 3px rgba(43,43,43,.07);
+  --e2:0 6px 22px -8px rgba(43,43,43,.22);
+}
